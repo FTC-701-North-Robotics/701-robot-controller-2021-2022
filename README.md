@@ -13,10 +13,10 @@ Welcome to the 2021 to 2022 freight frenzy codebase for team 701 Gonk Squad 2.0
 
 ## Hardware Map
 
-leftFront: Front Left Mechnum Motor
-leftRear: Rear Left mechnum Motor
-rightFront: Front Right Mechnum Motor
-rightRear: Rear Right Mechnum Motor
+- leftFront: Front Left Mechnum Motor
+- leftRear: Rear Left mechnum Motor
+- rightFront: Front Right Mechnum Motor
+- rightRear: Rear Right Mechnum Motor
 
 ## Other Setup
 
