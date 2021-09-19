@@ -23,10 +23,10 @@ public class TeleOpPrototype extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        lbDrive = hardwareMap.get(DcMotor.class, "lbdrive");
-        rbDrive = hardwareMap.get(DcMotor.class, "rbdrive");
-        lfDrive = hardwareMap.get(DcMotor.class, "lfdrive");
-        rfDrive = hardwareMap.get(DcMotor.class, "rfdrive");
+        lbDrive = hardwareMap.get(DcMotor.class, "leftRear");
+        rbDrive = hardwareMap.get(DcMotor.class, "rightRear");
+        lfDrive = hardwareMap.get(DcMotor.class, "leftFront");
+        rfDrive = hardwareMap.get(DcMotor.class, "rightFront");
 
         lbDrive.setDirection(DcMotor.Direction.FORWARD);
         lfDrive.setDirection(DcMotor.Direction.FORWARD);
