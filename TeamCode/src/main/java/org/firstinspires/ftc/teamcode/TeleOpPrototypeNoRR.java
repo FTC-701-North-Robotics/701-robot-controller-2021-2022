@@ -8,41 +8,54 @@ import com.qualcomm.robotcore.util.Range;
 
 
 
-@TeleOp(name = "TeleOpPrototype", group = "Linear Opmode")
-public class TeleOpPrototype extends LinearOpMode {
-
-    // Declare OpMode members.
+@TeleOp(name = "TeleOpPrototype", group = "Prototypes")
+public class TeleOpPrototypeNoRR extends LinearOpMode {
+	// Timer
     private ElapsedTime runtime = new ElapsedTime();
+    
+	// Declare Motors
     private DcMotor lbDrive = null;
     private DcMotor rbDrive = null;
     private DcMotor lfDrive = null;
     private DcMotor rfDrive = null;
+	
+	// Declare Motor power values
+	private	double lbDrivePower;
+	private double rbDrivePower;
+	private double lfDrivePower;
+	private double rfDrivePower;
+
 
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        lbDrive = hardwareMap.get(DcMotor.class, "leftRear");
-        rbDrive = hardwareMap.get(DcMotor.class, "rightRear");
-        lfDrive = hardwareMap.get(DcMotor.class, "leftFront");
+        lbDrive = hardwareMap.get(DcMotor.class, "leftRear");  // These hardware map names 
+        rbDrive = hardwareMap.get(DcMotor.class, "rightRear"); // are compatable with RoadRunners 
+        lfDrive = hardwareMap.get(DcMotor.class, "leftFront"); // Defaults
         rfDrive = hardwareMap.get(DcMotor.class, "rightFront");
+
+		
 
         lbDrive.setDirection(DcMotor.Direction.FORWARD);
         lfDrive.setDirection(DcMotor.Direction.FORWARD);
         rbDrive.setDirection(DcMotor.Direction.REVERSE);
         rfDrive.setDirection(DcMotor.Direction.REVERSE);
 
+		// This disigusting syntax just allows us to know the current position through road runner
+		StandardTrackingWheelLocalizer myLocalizer = new StandardTrackingWheelLocalizer(hardwareMap);
+        myLocalizer.setPoseEstimate(new Pose2d(10, 10, Math.toRadians(90)));
+
         waitForStart();
         runtime.reset();
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+			myLocalizer.update();
 
-            double lbDrivePower;
-            double rbDrivePower;
-            double lfDrivePower;
-            double rfDrivePower;
+            // Retrieve your pose
+            Pose2d myPose = myLocalizer.getPoseEstimate();
 
             double drive = -gamepad1.left_stick_y;
             double turn = gamepad1.right_stick_x;
@@ -58,9 +71,15 @@ public class TeleOpPrototype extends LinearOpMode {
             lfDrive.setPower(lfDrivePower);
             rfDrive.setPower(rfDrivePower);
 
+
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "left back (%.2f), right back (%.2f), left front (%.2f), right front (%.2f)", lbDrivePower, rbDrivePower, lfDrivePower, rfDrivePower);
-            telemetry.update();
+
+			telemetry.addData("x", myPose.getX());
+            telemetry.addData("y", myPose.getY());
+            telemetry.addData("heading", myPose.getHeading());
+
+			telemetry.update();
         }
     }
 }
