@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-@TeleOp(group = "Prototypes")
+@TeleOp(name="TeleOpPrototypeRoadRunner",group = "Prototypes")
 public class TeleOpPrototypeRoadRunner extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -49,7 +49,7 @@ public class TeleOpPrototypeRoadRunner extends LinearOpMode {
             telemetry.addData("x", poseEstimate.getX());
             telemetry.addData("y", poseEstimate.getY());
             telemetry.addData("heading", poseEstimate.getHeading());
-			telemetry.addData("runtime", runtime.toString())
+			telemetry.addData("runtime", runtime.toString());
             telemetry.update();
         }
     }
