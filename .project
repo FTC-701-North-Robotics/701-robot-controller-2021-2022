@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>2021-2022ftcrobotcontroller</name>
-	<comment>Project 2021-2022ftcrobotcontroller created by Buildship.</comment>
+	<name>new-sdk</name>
+	<comment>Project new-sdk created by Buildship.</comment>
 	<projects>
 	</projects>
 	<buildSpec>
@@ -16,7 +16,7 @@
 	</natures>
 	<filteredResources>
 		<filter>
-			<id>1630979498319</id>
+			<id>1632279235609</id>
 			<name></name>
 			<type>30</type>
 			<matcher>
