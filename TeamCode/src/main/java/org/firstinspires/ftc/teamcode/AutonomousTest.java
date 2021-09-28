@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-@Autonomous(name= "AutonomousPrototype", group = "drive")
+@Autonomous(name= "AutonomousTest", group = "drive")
 public class AutonomousTest extends LinearOpMode {
 
     private double DISTANCE = 500;
