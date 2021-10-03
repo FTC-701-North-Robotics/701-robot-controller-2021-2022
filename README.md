@@ -2,7 +2,6 @@
 
 Welcome to the 2021 to 2022 freight frenzy codebase for team 701 Gonk Squad 2.0
 
-bruh
 
 [road runner quickstart documentation](https://acme-robotics.gitbook.io/road-runner/quickstart/introduction)
 
