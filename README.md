@@ -23,6 +23,8 @@ Welcome to the 2021 to 2022 freight frenzy codebase for team 701 Gonk Squad 2.0
 - rightFront: Right Encoder
 - rightRear: Back (Front in code) Encoder
 
+- spinny: Spinny Motor
+
 ## Other Setup
 
 From [EasyOpenCv Readme](https://github.com/OpenFTC/EasyOpenCV/blob/master/readme.md)
