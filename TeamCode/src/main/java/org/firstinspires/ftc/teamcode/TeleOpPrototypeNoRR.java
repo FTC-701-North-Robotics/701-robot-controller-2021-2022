@@ -12,9 +12,6 @@ import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 
 @TeleOp(name = "TeleOpPrototype", group = "Prototypes")
 public class TeleOpPrototypeNoRR extends LinearOpMode {
-	// Timer
-//    private ElapsedTime runtime = new ElapsedTime();
-
 	// Declare Motors
 	private DcMotor lbDrive = null;
 	private DcMotor rbDrive = null;
@@ -27,6 +24,8 @@ public class TeleOpPrototypeNoRR extends LinearOpMode {
 	private double lfDrivePower;
 	private double rfDrivePower;
 
+	private DcMotor spinny = null;
+
 
 	@Override
 	public void runOpMode() {
@@ -38,6 +37,7 @@ public class TeleOpPrototypeNoRR extends LinearOpMode {
 		lfDrive = hardwareMap.get(DcMotor.class, "leftFront"); // Defaults
 		rfDrive = hardwareMap.get(DcMotor.class, "rightFront");
 
+		spinny = hardwareMap.get(DcMotor.class, "spinny");
 
 		lbDrive.setDirection(DcMotor.Direction.FORWARD);
 		lfDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -46,24 +46,15 @@ public class TeleOpPrototypeNoRR extends LinearOpMode {
 
 
 		waitForStart();
-//        runtime.reset();
 
 		// run until the end of the match (driver presses STOP)
 		while (opModeIsActive()) {
-//			myLocalizer.update();
-
-			// Retrieve your pose
-//            Pose2d myPose = myLocalizer.getPoseEstimate();
 
 			double drive = -gamepad1.left_stick_y;
 			double turn = gamepad1.right_stick_x;
 			double strafe = gamepad1.left_stick_x;
 
-//            lbDrivePower = (Range.clip((drive + turn) * strafe, -1.0, 1.0));
-//            rbDrivePower = (Range.clip((drive - turn) * strafe, -1.0, 1.0));
-//            lfDrivePower = (Range.clip((drive + turn) * -strafe, -1.0, 1.0));
-//            rfDrivePower = (Range.clip((drive - turn) * -strafe, -1.0, 1.0));
-
+			double spinInput = gamepad1.right_trigger;
 
 			lbDrivePower = drive - turn - strafe;
 			rbDrivePower = drive + turn + strafe;
@@ -75,13 +66,10 @@ public class TeleOpPrototypeNoRR extends LinearOpMode {
 			lfDrive.setPower(lfDrivePower);
 			rfDrive.setPower(rfDrivePower);
 
+			spinny.setPower(spinInput);
 
-//            telemetry.addData("Status", "Run Time: " + runtime.toString());
 			telemetry.addData("Motors", "left back (%.2f), right back (%.2f), left front (%.2f), right front (%.2f)", lbDrivePower, rbDrivePower, lfDrivePower, rfDrivePower);
-//
-//			telemetry.addData("x", myPose.getX());
-//            telemetry.addData("y", myPose.getY());
-//            telemetry.addData("heading", myPose.getHeading());
+			telemetry.addData("Spinny Thing Motor", spinInput);
 
 			telemetry.update();
 		}
