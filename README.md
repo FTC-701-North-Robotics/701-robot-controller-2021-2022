@@ -11,6 +11,8 @@ Welcome to the 2021 to 2022 freight frenzy codebase for team 701 Gonk Squad 2.0
 
 [easy Opencv example code](https://github.com/OpenFTC/EasyOpenCV/tree/master/examples/src/main/java/org/firstinspires/ftc/teamcode)
 
+[Simple Examples of PID control](https://www.youtube.com/watch?v=XfAt6hNV8XM)
+
 
 ## Hardware Map
 
