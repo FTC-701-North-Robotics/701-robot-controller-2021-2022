@@ -1,3 +1,5 @@
+
+
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
@@ -45,7 +47,7 @@ public class skcusmac extends OpMode {
 
     double scale = 1.0;
 
-    int intakeup = 2;
+    int intakeup = 1;
     boolean outtakeup;
     @Override
     public void init() {
@@ -76,6 +78,7 @@ public class skcusmac extends OpMode {
 
 
 
+
         lbDrive.setDirection(DcMotor.Direction.FORWARD);
         lfDrive.setDirection(DcMotor.Direction.FORWARD);
         rbDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -86,40 +89,14 @@ public class skcusmac extends OpMode {
         intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
-    @Override
-    public void init_loop() {
-
-        telemetry.addLine(String.valueOf(winchTouch.isPressed()));
-
-        if (!winchTouch.isPressed()){
-            winch.setPower(-1.0);
-        }
-        else{
-            winch.setPower(0.0);
-            winch.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            winch.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        }
-
-    if(!inTouch.isPressed()){
-        intake.setPower(0.5);
-    }
-    else{
-        intake.setPower(0.0);
-        intake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-    }
-
-
-    }
-
-
-
-
 
     @Override
     public void loop() {
 
+        LED.setPattern(RevBlinkinLedDriver.BlinkinPattern.CP1_STROBE);
+
         telemetry.addLine(String.valueOf(intake.getCurrentPosition()));
+        telemetry.addLine(String.valueOf(intakeup));
 
         if (gamepad2.left_bumper){
             outTakeBox.setPosition(0.35);
@@ -158,37 +135,38 @@ public class skcusmac extends OpMode {
             intakeup = 2;
         }
         else {
-//Change this to work with new encoder setup
             if (gamepad2.y) {
                 intakeup = 1;
             }
+            else if (gamepad2.a) {
+                intakeup = 0;
+            }
+
+
 
             if (intakeup == 1) {
                 if (!inTouch.isPressed()) {
-                    intake.setPower(0.4);
+                    intake.setPower(0.6);
                 } else {
                     intake.setPower(0.0);
                     intake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                     intakeup = 2;
                 }
-
-            } else if (gamepad2.a) {
-                intakeup = 0;
+//this needs fixing^^^
             }
 
             if (intakeup == 0) {
-                if (intake.getCurrentPosition() >= 90) {
+                if (intake.getCurrentPosition() >= -90) {
                     intake.setPower(-0.5);
-                } else if (intake.getCurrentPosition() > 90 && intake.getCurrentPosition() <= 10) {
+                } else if (intake.getCurrentPosition() < -90 && intake.getCurrentPosition() >= -100) {
                     intake.setPower(-0.4);
-                } else if (intake.getCurrentPosition() < 10) {
+                } else if (intake.getCurrentPosition() < -105) {
                     intake.setPower(0.0);
 
                     intakeup = 2;
                 }
             }
-
             else {
                 intake.setPower(0.0);
             }
@@ -233,7 +211,7 @@ public class skcusmac extends OpMode {
             winchPosition = "manual";
         }
         else if (gamepad2.left_stick_y > 0.05){
-            winch.setPower(gamepad2.left_stick_y);
+            winch.setPower(-gamepad2.left_stick_y);
             winchPosition = "manual";
         }
         else {
