@@ -37,8 +37,8 @@ import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.SwitchableCamera;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 /**
  * This 2020-2021 OpMode illustrates the basics of using the TensorFlow Object Detection API to
@@ -50,172 +50,196 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@TeleOp(name = "Concept: TensorFlow Object Detection Switchable Cameras", group = "Concept")
+@TeleOp(
+	name = "Concept: TensorFlow Object Detection Switchable Cameras",
+	group = "Concept"
+)
 @Disabled
-public class ConceptTensorFlowObjectDetectionSwitchableCameras extends LinearOpMode {
-  /* Note: This sample uses the all-objects Tensor Flow model (FreightFrenzy_BCDM.tflite), which contains
-   * the following 4 detectable objects
-   *  0: Ball,
-   *  1: Cube,
-   *  2: Duck,
-   *  3: Marker (duck location tape marker)
-   *
-   *  Two additional model assets are available which only contain a subset of the objects:
-   *  FreightFrenzy_BC.tflite  0: Ball,  1: Cube
-   *  FreightFrenzy_DM.tflite  0: Duck,  1: Marker
-   */
-    private static final String TFOD_MODEL_ASSET = "FreightFrenzy_BCDM.tflite";
-    private static final String[] LABELS = {
-      "Ball",
-      "Cube",
-      "Duck",
-      "Marker"
-    };
+public class ConceptTensorFlowObjectDetectionSwitchableCameras
+	extends LinearOpMode {
 
-    /*
-     * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
-     * 'parameters.vuforiaLicenseKey' is initialized is for illustration only, and will not function.
-     * A Vuforia 'Development' license key, can be obtained free of charge from the Vuforia developer
-     * web site at https://developer.vuforia.com/license-manager.
-     *
-     * Vuforia license keys are always 380 characters long, and look as if they contain mostly
-     * random data. As an example, here is a example of a fragment of a valid key:
-     *      ... yIgIzTqZ4mWjk9wd3cZO9T1axEqzuhxoGlfOOI2dRzKS4T0hQ8kT ...
-     * Once you've obtained a license key, copy the string from the Vuforia web site
-     * and paste it in to your code on the next line, between the double quotes.
-     */
-    private static final String VUFORIA_KEY =
-            " -- YOUR NEW VUFORIA KEY GOES HERE  --- ";
+	/* Note: This sample uses the all-objects Tensor Flow model (FreightFrenzy_BCDM.tflite), which contains
+	 * the following 4 detectable objects
+	 *  0: Ball,
+	 *  1: Cube,
+	 *  2: Duck,
+	 *  3: Marker (duck location tape marker)
+	 *
+	 *  Two additional model assets are available which only contain a subset of the objects:
+	 *  FreightFrenzy_BC.tflite  0: Ball,  1: Cube
+	 *  FreightFrenzy_DM.tflite  0: Duck,  1: Marker
+	 */
+	private static final String TFOD_MODEL_ASSET = "FreightFrenzy_BCDM.tflite";
+	private static final String[] LABELS = { "Ball", "Cube", "Duck", "Marker" };
 
-    /**
-     * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
-     * localization engine.
-     */
-    private VuforiaLocalizer vuforia;
+	/*
+	 * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
+	 * 'parameters.vuforiaLicenseKey' is initialized is for illustration only, and will not function.
+	 * A Vuforia 'Development' license key, can be obtained free of charge from the Vuforia developer
+	 * web site at https://developer.vuforia.com/license-manager.
+	 *
+	 * Vuforia license keys are always 380 characters long, and look as if they contain mostly
+	 * random data. As an example, here is a example of a fragment of a valid key:
+	 *      ... yIgIzTqZ4mWjk9wd3cZO9T1axEqzuhxoGlfOOI2dRzKS4T0hQ8kT ...
+	 * Once you've obtained a license key, copy the string from the Vuforia web site
+	 * and paste it in to your code on the next line, between the double quotes.
+	 */
+	private static final String VUFORIA_KEY =
+		" -- YOUR NEW VUFORIA KEY GOES HERE  --- ";
 
-    /**
-     * Variables used for switching cameras.
-     */
-    private WebcamName webcam1, webcam2;
-    private SwitchableCamera switchableCamera;
-    private boolean oldLeftBumper;
-    private boolean oldRightBumper;
+	/**
+	 * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
+	 * localization engine.
+	 */
+	private VuforiaLocalizer vuforia;
 
-    /**
-     * {@link #tfod} is the variable we will use to store our instance of the TensorFlow Object
-     * Detection engine.
-     */
-    private TFObjectDetector tfod;
+	/**
+	 * Variables used for switching cameras.
+	 */
+	private WebcamName webcam1, webcam2;
+	private SwitchableCamera switchableCamera;
+	private boolean oldLeftBumper;
+	private boolean oldRightBumper;
 
-    @Override
-    public void runOpMode() {
-        // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
-        // first.
-        initVuforia();
-        initTfod();
+	/**
+	 * {@link #tfod} is the variable we will use to store our instance of the TensorFlow Object
+	 * Detection engine.
+	 */
+	private TFObjectDetector tfod;
 
-        /**
-         * Activate TensorFlow Object Detection before we wait for the start command.
-         * Do it here so that the Camera Stream window will have the TensorFlow annotations visible.
-         **/
-        if (tfod != null) {
-            tfod.activate();
+	@Override
+	public void runOpMode() {
+		// The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
+		// first.
+		initVuforia();
+		initTfod();
 
-            // The TensorFlow software will scale the input images from the camera to a lower resolution.
-            // This can result in lower detection accuracy at longer distances (> 55cm or 22").
-            // If your target is at distance greater than 50 cm (20") you can adjust the magnification value
-            // to artificially zoom in to the center of image.  For best results, the "aspectRatio" argument
-            // should be set to the value of the images used to create the TensorFlow Object Detection model
-            // (typically 16/9).
-            tfod.setZoom(2.5, 16.0/9.0);
-        }
+		/**
+		 * Activate TensorFlow Object Detection before we wait for the start command.
+		 * Do it here so that the Camera Stream window will have the TensorFlow annotations visible.
+		 **/
+		if (tfod != null) {
+			tfod.activate();
 
-        /** Wait for the game to begin */
-        telemetry.addData(">", "Press Play to start op mode");
-        telemetry.update();
-        waitForStart();
+			// The TensorFlow software will scale the input images from the camera to a lower resolution.
+			// This can result in lower detection accuracy at longer distances (> 55cm or 22").
+			// If your target is at distance greater than 50 cm (20") you can adjust the magnification value
+			// to artificially zoom in to the center of image.  For best results, the "aspectRatio" argument
+			// should be set to the value of the images used to create the TensorFlow Object Detection model
+			// (typically 16/9).
+			tfod.setZoom(2.5, 16.0 / 9.0);
+		}
 
-        if (opModeIsActive()) {
-            while (opModeIsActive()) {
-                if (tfod != null) {
-                    doCameraSwitching();
-                    List<Recognition> recognitions = tfod.getRecognitions();
-                    telemetry.addData("# Object Detected", recognitions.size());
-                    // step through the list of recognitions and display boundary info.
-                    int i = 0;
-                    for (Recognition recognition : recognitions) {
-                      telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
-                      telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
-                              recognition.getLeft(), recognition.getTop());
-                      telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
-                              recognition.getRight(), recognition.getBottom());
-                      i++;
-                    }
-                    telemetry.update();
-                }
-            }
-        }
-    }
+		/** Wait for the game to begin */
+		telemetry.addData(">", "Press Play to start op mode");
+		telemetry.update();
+		waitForStart();
 
-    /**
-     * Initialize the Vuforia localization engine.
-     */
-    private void initVuforia() {
-        /*
-         * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
-         */
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+		if (opModeIsActive()) {
+			while (opModeIsActive()) {
+				if (tfod != null) {
+					doCameraSwitching();
+					List<Recognition> recognitions = tfod.getRecognitions();
+					telemetry.addData("# Object Detected", recognitions.size());
+					// step through the list of recognitions and display boundary info.
+					int i = 0;
+					for (Recognition recognition : recognitions) {
+						telemetry.addData(
+							String.format("label (%d)", i),
+							recognition.getLabel()
+						);
+						telemetry.addData(
+							String.format("  left,top (%d)", i),
+							"%.03f , %.03f",
+							recognition.getLeft(),
+							recognition.getTop()
+						);
+						telemetry.addData(
+							String.format("  right,bottom (%d)", i),
+							"%.03f , %.03f",
+							recognition.getRight(),
+							recognition.getBottom()
+						);
+						i++;
+					}
+					telemetry.update();
+				}
+			}
+		}
+	}
 
-        parameters.vuforiaLicenseKey = VUFORIA_KEY;
+	/**
+	 * Initialize the Vuforia localization engine.
+	 */
+	private void initVuforia() {
+		/*
+		 * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
+		 */
+		VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
-        // Indicate that we wish to be able to switch cameras.
-        webcam1 = hardwareMap.get(WebcamName.class, "Webcam 1");
-        webcam2 = hardwareMap.get(WebcamName.class, "Webcam 2");
-        parameters.cameraName = ClassFactory.getInstance().getCameraManager().nameForSwitchableCamera(webcam1, webcam2);
+		parameters.vuforiaLicenseKey = VUFORIA_KEY;
 
-        //  Instantiate the Vuforia engine
-        vuforia = ClassFactory.getInstance().createVuforia(parameters);
+		// Indicate that we wish to be able to switch cameras.
+		webcam1 = hardwareMap.get(WebcamName.class, "Webcam 1");
+		webcam2 = hardwareMap.get(WebcamName.class, "Webcam 2");
+		parameters.cameraName =
+			ClassFactory
+				.getInstance()
+				.getCameraManager()
+				.nameForSwitchableCamera(webcam1, webcam2);
 
-        // Set the active camera to Webcam 1.
-        switchableCamera = (SwitchableCamera) vuforia.getCamera();
-        switchableCamera.setActiveCamera(webcam1);
+		//  Instantiate the Vuforia engine
+		vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
-        // Loading trackables is not necessary for the TensorFlow Object Detection engine.
-    }
+		// Set the active camera to Webcam 1.
+		switchableCamera = (SwitchableCamera) vuforia.getCamera();
+		switchableCamera.setActiveCamera(webcam1);
+		// Loading trackables is not necessary for the TensorFlow Object Detection engine.
+	}
 
-    /**
-     * Initialize the TensorFlow Object Detection engine.
-     */
-    private void initTfod() {
-        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-            "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfodParameters.minResultConfidence = 0.8f;
-        tfodParameters.isModelTensorFlow2 = true;
-        tfodParameters.inputSize = 320;
-        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
-    }
+	/**
+	 * Initialize the TensorFlow Object Detection engine.
+	 */
+	private void initTfod() {
+		int tfodMonitorViewId = hardwareMap.appContext
+			.getResources()
+			.getIdentifier(
+				"tfodMonitorViewId",
+				"id",
+				hardwareMap.appContext.getPackageName()
+			);
+		TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(
+			tfodMonitorViewId
+		);
+		tfodParameters.minResultConfidence = 0.8f;
+		tfodParameters.isModelTensorFlow2 = true;
+		tfodParameters.inputSize = 320;
+		tfod =
+			ClassFactory
+				.getInstance()
+				.createTFObjectDetector(tfodParameters, vuforia);
+		tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
+	}
 
-    private void doCameraSwitching() {
-        // If the left bumper is pressed, use Webcam 1.
-        // If the right bumper is pressed, use Webcam 2.
-        boolean newLeftBumper = gamepad1.left_bumper;
-        boolean newRightBumper = gamepad1.right_bumper;
-        if (newLeftBumper && !oldLeftBumper) {
-            switchableCamera.setActiveCamera(webcam1);
-        } else if (newRightBumper && !oldRightBumper) {
-            switchableCamera.setActiveCamera(webcam2);
-        }
-        oldLeftBumper = newLeftBumper;
-        oldRightBumper = newRightBumper;
+	private void doCameraSwitching() {
+		// If the left bumper is pressed, use Webcam 1.
+		// If the right bumper is pressed, use Webcam 2.
+		boolean newLeftBumper = gamepad1.left_bumper;
+		boolean newRightBumper = gamepad1.right_bumper;
+		if (newLeftBumper && !oldLeftBumper) {
+			switchableCamera.setActiveCamera(webcam1);
+		} else if (newRightBumper && !oldRightBumper) {
+			switchableCamera.setActiveCamera(webcam2);
+		}
+		oldLeftBumper = newLeftBumper;
+		oldRightBumper = newRightBumper;
 
-        if (switchableCamera.getActiveCamera().equals(webcam1)) {
-            telemetry.addData("activeCamera", "Webcam 1");
-            telemetry.addData("Press RightBumper", "to switch to Webcam 2");
-        } else {
-            telemetry.addData("activeCamera", "Webcam 2");
-            telemetry.addData("Press LeftBumper", "to switch to Webcam 1");
-        }
-    }
+		if (switchableCamera.getActiveCamera().equals(webcam1)) {
+			telemetry.addData("activeCamera", "Webcam 1");
+			telemetry.addData("Press RightBumper", "to switch to Webcam 2");
+		} else {
+			telemetry.addData("activeCamera", "Webcam 2");
+			telemetry.addData("Press LeftBumper", "to switch to Webcam 1");
+		}
+	}
 }
