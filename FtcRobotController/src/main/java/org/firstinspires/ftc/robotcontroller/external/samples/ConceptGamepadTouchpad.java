@@ -1,9 +1,8 @@
 package org.firstinspires.ftc.robotcontroller.external.samples;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /**
@@ -35,44 +34,51 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  */
 
 @Disabled
-@TeleOp(name="Concept: Gamepad Touchpad", group ="Concept")
-public class ConceptGamepadTouchpad extends LinearOpMode
-{
-    @Override
-    public void runOpMode()
-    {
-        telemetry.setDisplayFormat(Telemetry.DisplayFormat.MONOSPACE);
+@TeleOp(name = "Concept: Gamepad Touchpad", group = "Concept")
+public class ConceptGamepadTouchpad extends LinearOpMode {
 
-        telemetry.addData(">", "Press Start");
-        telemetry.update();
+	@Override
+	public void runOpMode() {
+		telemetry.setDisplayFormat(Telemetry.DisplayFormat.MONOSPACE);
 
-        waitForStart();
+		telemetry.addData(">", "Press Start");
+		telemetry.update();
 
-        while (opModeIsActive())
-        {
-            boolean finger = false;
+		waitForStart();
 
-            // Display finger 1 x & y position if finger detected
-            if(gamepad1.touchpad_finger_1)
-            {
-                finger = true;
-                telemetry.addLine(String.format("Finger 1: x=%5.2f y=%5.2f\n", gamepad1.touchpad_finger_1_x, gamepad1.touchpad_finger_1_y));
-            }
+		while (opModeIsActive()) {
+			boolean finger = false;
 
-            // Display finger 2 x & y position if finger detected
-            if(gamepad1.touchpad_finger_2)
-            {
-                finger = true;
-                telemetry.addLine(String.format("Finger 2: x=%5.2f y=%5.2f\n", gamepad1.touchpad_finger_2_x, gamepad1.touchpad_finger_2_y));
-            }
+			// Display finger 1 x & y position if finger detected
+			if (gamepad1.touchpad_finger_1) {
+				finger = true;
+				telemetry.addLine(
+					String.format(
+						"Finger 1: x=%5.2f y=%5.2f\n",
+						gamepad1.touchpad_finger_1_x,
+						gamepad1.touchpad_finger_1_y
+					)
+				);
+			}
 
-            if(!finger)
-            {
-                telemetry.addLine("No fingers");
-            }
+			// Display finger 2 x & y position if finger detected
+			if (gamepad1.touchpad_finger_2) {
+				finger = true;
+				telemetry.addLine(
+					String.format(
+						"Finger 2: x=%5.2f y=%5.2f\n",
+						gamepad1.touchpad_finger_2_x,
+						gamepad1.touchpad_finger_2_y
+					)
+				);
+			}
 
-            telemetry.update();
-            sleep(10);
-        }
-    }
+			if (!finger) {
+				telemetry.addLine("No fingers");
+			}
+
+			telemetry.update();
+			sleep(10);
+		}
+	}
 }

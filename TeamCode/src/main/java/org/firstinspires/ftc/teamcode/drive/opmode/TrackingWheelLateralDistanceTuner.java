@@ -6,7 +6,6 @@ import com.acmerobotics.roadrunner.util.Angle;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.RobotLog;
-
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 
@@ -64,67 +63,80 @@ import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 @Config
 @TeleOp(group = "drive")
 public class TrackingWheelLateralDistanceTuner extends LinearOpMode {
-    public static int NUM_TURNS = 10;
 
-    @Override
-    public void runOpMode() throws InterruptedException {
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+	public static int NUM_TURNS = 10;
 
-        if (!(drive.getLocalizer() instanceof StandardTrackingWheelLocalizer)) {
-            RobotLog.setGlobalErrorMsg("StandardTrackingWheelLocalizer is not being set in the "
-                    + "drive class. Ensure that \"setLocalizer(new StandardTrackingWheelLocalizer"
-                    + "(hardwareMap));\" is called in SampleMecanumDrive.java");
-        }
+	@Override
+	public void runOpMode() throws InterruptedException {
+		SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        telemetry.addLine("Prior to beginning the routine, please read the directions "
-                + "located in the comments of the opmode file.");
-        telemetry.addLine("Press play to begin the tuning routine.");
-        telemetry.addLine("");
-        telemetry.addLine("Press Y/△ to stop the routine.");
-        telemetry.update();
+		if (!(drive.getLocalizer() instanceof StandardTrackingWheelLocalizer)) {
+			RobotLog.setGlobalErrorMsg(
+				"StandardTrackingWheelLocalizer is not being set in the " +
+				"drive class. Ensure that \"setLocalizer(new StandardTrackingWheelLocalizer" +
+				"(hardwareMap));\" is called in SampleMecanumDrive.java"
+			);
+		}
 
-        waitForStart();
+		telemetry.addLine(
+			"Prior to beginning the routine, please read the directions " +
+			"located in the comments of the opmode file."
+		);
+		telemetry.addLine("Press play to begin the tuning routine.");
+		telemetry.addLine("");
+		telemetry.addLine("Press Y/△ to stop the routine.");
+		telemetry.update();
 
-        if (isStopRequested()) return;
+		waitForStart();
 
-        telemetry.clearAll();
-        telemetry.update();
+		if (isStopRequested()) return;
 
-        double headingAccumulator = 0;
-        double lastHeading = 0;
+		telemetry.clearAll();
+		telemetry.update();
 
-        boolean tuningFinished = false;
+		double headingAccumulator = 0;
+		double lastHeading = 0;
 
-        while (!isStopRequested() && !tuningFinished) {
-            Pose2d vel = new Pose2d(0, 0, -gamepad1.right_stick_x);
-            drive.setDrivePower(vel);
+		boolean tuningFinished = false;
 
-            drive.update();
+		while (!isStopRequested() && !tuningFinished) {
+			Pose2d vel = new Pose2d(0, 0, -gamepad1.right_stick_x);
+			drive.setDrivePower(vel);
 
-            double heading = drive.getPoseEstimate().getHeading();
-            double deltaHeading = heading - lastHeading;
+			drive.update();
 
-            headingAccumulator += Angle.normDelta(deltaHeading);
-            lastHeading = heading;
+			double heading = drive.getPoseEstimate().getHeading();
+			double deltaHeading = heading - lastHeading;
 
-            telemetry.clearAll();
-            telemetry.addLine("Total Heading (deg): " + Math.toDegrees(headingAccumulator));
-            telemetry.addLine("Raw Heading (deg): " + Math.toDegrees(heading));
-            telemetry.addLine();
-            telemetry.addLine("Press Y/△ to conclude routine");
-            telemetry.update();
+			headingAccumulator += Angle.normDelta(deltaHeading);
+			lastHeading = heading;
 
-            if (gamepad1.y)
-                tuningFinished = true;
-        }
+			telemetry.clearAll();
+			telemetry.addLine(
+				"Total Heading (deg): " + Math.toDegrees(headingAccumulator)
+			);
+			telemetry.addLine("Raw Heading (deg): " + Math.toDegrees(heading));
+			telemetry.addLine();
+			telemetry.addLine("Press Y/△ to conclude routine");
+			telemetry.update();
 
-        telemetry.clearAll();
-        telemetry.addLine("Localizer's total heading: " + Math.toDegrees(headingAccumulator) + "°");
-        telemetry.addLine("Effective LATERAL_DISTANCE: " +
-                (headingAccumulator / (NUM_TURNS * Math.PI * 2)) * StandardTrackingWheelLocalizer.LATERAL_DISTANCE);
+			if (gamepad1.y) tuningFinished = true;
+		}
 
-        telemetry.update();
+		telemetry.clearAll();
+		telemetry.addLine(
+			"Localizer's total heading: " +
+			Math.toDegrees(headingAccumulator) +
+			"°"
+		);
+		telemetry.addLine(
+			"Effective LATERAL_DISTANCE: " +
+			(headingAccumulator / (NUM_TURNS * Math.PI * 2)) *
+			StandardTrackingWheelLocalizer.LATERAL_DISTANCE
+		);
 
-        while (!isStopRequested()) idle();
-    }
+		telemetry.update();
+
+		while (!isStopRequested()) idle();
+	}
 }

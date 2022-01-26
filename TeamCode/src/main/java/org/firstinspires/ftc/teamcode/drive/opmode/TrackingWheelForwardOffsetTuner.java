@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.MovingStatistics;
 import com.qualcomm.robotcore.util.RobotLog;
-
 import org.firstinspires.ftc.robotcore.internal.system.Misc;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
@@ -34,70 +33,86 @@ import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
  * satisfactory result is produced.
  */
 @Config
-@Autonomous(group="drive")
+@Autonomous(group = "drive")
 public class TrackingWheelForwardOffsetTuner extends LinearOpMode {
-    public static double ANGLE = 180; // deg
-    public static int NUM_TRIALS = 5;
-    public static int DELAY = 1000; // ms
 
-    @Override
-    public void runOpMode() throws InterruptedException {
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+	public static double ANGLE = 180; // deg
+	public static int NUM_TRIALS = 5;
+	public static int DELAY = 1000; // ms
 
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+	@Override
+	public void runOpMode() throws InterruptedException {
+		telemetry =
+			new MultipleTelemetry(
+				telemetry,
+				FtcDashboard.getInstance().getTelemetry()
+			);
 
-        if (!(drive.getLocalizer() instanceof StandardTrackingWheelLocalizer)) {
-            RobotLog.setGlobalErrorMsg("StandardTrackingWheelLocalizer is not being set in the "
-                    + "drive class. Ensure that \"setLocalizer(new StandardTrackingWheelLocalizer"
-                    + "(hardwareMap));\" is called in SampleMecanumDrive.java");
-        }
+		SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        telemetry.addLine("Press play to begin the forward offset tuner");
-        telemetry.addLine("Make sure your robot has enough clearance to turn smoothly");
-        telemetry.update();
+		if (!(drive.getLocalizer() instanceof StandardTrackingWheelLocalizer)) {
+			RobotLog.setGlobalErrorMsg(
+				"StandardTrackingWheelLocalizer is not being set in the " +
+				"drive class. Ensure that \"setLocalizer(new StandardTrackingWheelLocalizer" +
+				"(hardwareMap));\" is called in SampleMecanumDrive.java"
+			);
+		}
 
-        waitForStart();
+		telemetry.addLine("Press play to begin the forward offset tuner");
+		telemetry.addLine(
+			"Make sure your robot has enough clearance to turn smoothly"
+		);
+		telemetry.update();
 
-        if (isStopRequested()) return;
+		waitForStart();
 
-        telemetry.clearAll();
-        telemetry.addLine("Running...");
-        telemetry.update();
+		if (isStopRequested()) return;
 
-        MovingStatistics forwardOffsetStats = new MovingStatistics(NUM_TRIALS);
-        for (int i = 0; i < NUM_TRIALS; i++) {
-            drive.setPoseEstimate(new Pose2d());
+		telemetry.clearAll();
+		telemetry.addLine("Running...");
+		telemetry.update();
 
-            // it is important to handle heading wraparounds
-            double headingAccumulator = 0;
-            double lastHeading = 0;
+		MovingStatistics forwardOffsetStats = new MovingStatistics(NUM_TRIALS);
+		for (int i = 0; i < NUM_TRIALS; i++) {
+			drive.setPoseEstimate(new Pose2d());
 
-            drive.turnAsync(Math.toRadians(ANGLE));
+			// it is important to handle heading wraparounds
+			double headingAccumulator = 0;
+			double lastHeading = 0;
 
-            while (!isStopRequested() && drive.isBusy()) {
-                double heading = drive.getPoseEstimate().getHeading();
-                headingAccumulator += Angle.norm(heading - lastHeading);
-                lastHeading = heading;
+			drive.turnAsync(Math.toRadians(ANGLE));
 
-                drive.update();
-            }
+			while (!isStopRequested() && drive.isBusy()) {
+				double heading = drive.getPoseEstimate().getHeading();
+				headingAccumulator += Angle.norm(heading - lastHeading);
+				lastHeading = heading;
 
-            double forwardOffset = StandardTrackingWheelLocalizer.FORWARD_OFFSET +
-                    drive.getPoseEstimate().getY() / headingAccumulator;
-            forwardOffsetStats.add(forwardOffset);
+				drive.update();
+			}
 
-            sleep(DELAY);
-        }
+			double forwardOffset =
+				StandardTrackingWheelLocalizer.FORWARD_OFFSET +
+				drive.getPoseEstimate().getY() /
+				headingAccumulator;
+			forwardOffsetStats.add(forwardOffset);
 
-        telemetry.clearAll();
-        telemetry.addLine("Tuning complete");
-        telemetry.addLine(Misc.formatInvariant("Effective forward offset = %.2f (SE = %.3f)",
-                forwardOffsetStats.getMean(),
-                forwardOffsetStats.getStandardDeviation() / Math.sqrt(NUM_TRIALS)));
-        telemetry.update();
+			sleep(DELAY);
+		}
 
-        while (!isStopRequested()) {
-            idle();
-        }
-    }
+		telemetry.clearAll();
+		telemetry.addLine("Tuning complete");
+		telemetry.addLine(
+			Misc.formatInvariant(
+				"Effective forward offset = %.2f (SE = %.3f)",
+				forwardOffsetStats.getMean(),
+				forwardOffsetStats.getStandardDeviation() /
+				Math.sqrt(NUM_TRIALS)
+			)
+		);
+		telemetry.update();
+
+		while (!isStopRequested()) {
+			idle();
+		}
+	}
 }

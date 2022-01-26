@@ -55,49 +55,48 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @Disabled
 public class ConceptDIMAsIndicator extends LinearOpMode {
 
-    static final int    BLUE_LED    = 0;     // Blue LED channel on DIM
-    static final int    RED_LED     = 1;     // Red LED Channel on DIM
+	static final int BLUE_LED = 0; // Blue LED channel on DIM
+	static final int RED_LED = 1; // Red LED Channel on DIM
 
-    // Create timer to toggle LEDs
-    private ElapsedTime runtime = new ElapsedTime();
+	// Create timer to toggle LEDs
+	private ElapsedTime runtime = new ElapsedTime();
 
-    // Define class members
-    DeviceInterfaceModule   dim;
+	// Define class members
+	DeviceInterfaceModule dim;
 
-    @Override
-    public void runOpMode() {
+	@Override
+	public void runOpMode() {
+		// Connect to motor (Assume standard left wheel)
+		// Change the text in quotes to match any motor name on your robot.
+		dim = hardwareMap.get(DeviceInterfaceModule.class, "dim");
 
-        // Connect to motor (Assume standard left wheel)
-        // Change the text in quotes to match any motor name on your robot.
-        dim = hardwareMap.get(DeviceInterfaceModule.class, "dim");
+		// Toggle LEDs while Waiting for the start button
+		telemetry.addData(">", "Press Play to test LEDs.");
+		telemetry.update();
 
-        // Toggle LEDs while Waiting for the start button
-        telemetry.addData(">", "Press Play to test LEDs." );
-        telemetry.update();
+		while (!isStarted()) {
+			// Determine if we are on an odd or even second
+			boolean even = (((int) (runtime.time()) & 0x01) == 0);
+			dim.setLED(RED_LED, even); // Red for even
+			dim.setLED(BLUE_LED, !even); // Blue for odd
+			idle();
+		}
 
-        while (!isStarted()) {
-            // Determine if we are on an odd or even second
-            boolean even = (((int)(runtime.time()) & 0x01) == 0);
-            dim.setLED(RED_LED,   even); // Red for even
-            dim.setLED(BLUE_LED, !even); // Blue for odd
-            idle();
-        }
+		// Running now
+		telemetry.addData(">", "Press X for Blue, B for Red.");
+		telemetry.update();
 
-        // Running now
-        telemetry.addData(">", "Press X for Blue, B for Red." );
-        telemetry.update();
+		// Now just use red and blue buttons to set red and blue LEDs
+		while (opModeIsActive()) {
+			dim.setLED(BLUE_LED, gamepad1.x);
+			dim.setLED(RED_LED, gamepad1.b);
+			idle();
+		}
 
-        // Now just use red and blue buttons to set red and blue LEDs
-        while(opModeIsActive()){
-            dim.setLED(BLUE_LED, gamepad1.x);
-            dim.setLED(RED_LED,  gamepad1.b);
-            idle();
-        }
-
-        // Turn off LEDs;
-        dim.setLED(BLUE_LED, false);
-        dim.setLED(RED_LED,  false);
-        telemetry.addData(">", "Done");
-        telemetry.update();
-    }
+		// Turn off LEDs;
+		dim.setLED(BLUE_LED, false);
+		dim.setLED(RED_LED, false);
+		telemetry.addData(">", "Done");
+		telemetry.update();
+	}
 }

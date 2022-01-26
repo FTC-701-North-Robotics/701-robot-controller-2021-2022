@@ -52,70 +52,69 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Concept: Compass Calibration", group="Concept")
+@TeleOp(name = "Concept: Compass Calibration", group = "Concept")
 @Disabled
 public class ConceptCompassCalibration extends LinearOpMode {
 
-    /* Declare OpMode members. */
-    HardwarePushbot     robot   = new HardwarePushbot();   // Use a Pushbot's hardware
-    private ElapsedTime runtime = new ElapsedTime();
-    CompassSensor       compass;
+	/* Declare OpMode members. */
+	HardwarePushbot robot = new HardwarePushbot(); // Use a Pushbot's hardware
+	private ElapsedTime runtime = new ElapsedTime();
+	CompassSensor compass;
 
-    final static double     MOTOR_POWER   = 0.2; // scale from 0 to 1
-    static final long       HOLD_TIME_MS  = 3000;
-    static final double     CAL_TIME_SEC  = 20;
+	static final double MOTOR_POWER = 0.2; // scale from 0 to 1
+	static final long HOLD_TIME_MS = 3000;
+	static final double CAL_TIME_SEC = 20;
 
-    @Override
-    public void runOpMode() {
+	@Override
+	public void runOpMode() {
+		/* Initialize the drive system variables.
+		 * The init() method of the hardware class does all the work here
+		 */
+		robot.init(hardwareMap);
 
-        /* Initialize the drive system variables.
-         * The init() method of the hardware class does all the work here
-         */
-        robot.init(hardwareMap);
+		// get a reference to our Compass Sensor object.
+		compass = hardwareMap.get(CompassSensor.class, "compass");
 
-        // get a reference to our Compass Sensor object.
-        compass = hardwareMap.get(CompassSensor.class, "compass");
+		// Send telemetry message to signify robot waiting;
+		telemetry.addData("Status", "Ready to cal"); //
+		telemetry.update();
 
-        // Send telemetry message to signify robot waiting;
-        telemetry.addData("Status", "Ready to cal");    //
-        telemetry.update();
+		// Wait for the game to start (driver presses PLAY)
+		waitForStart();
 
-        // Wait for the game to start (driver presses PLAY)
-        waitForStart();
+		// Set the compass to calibration mode
+		compass.setMode(CompassSensor.CompassMode.CALIBRATION_MODE);
+		telemetry.addData("Compass", "Compass in calibration mode");
+		telemetry.update();
 
-        // Set the compass to calibration mode
-        compass.setMode(CompassSensor.CompassMode.CALIBRATION_MODE);
-        telemetry.addData("Compass", "Compass in calibration mode");
-        telemetry.update();
+		sleep(HOLD_TIME_MS); // Just do a sleep while we switch modes
 
-        sleep(HOLD_TIME_MS);  // Just do a sleep while we switch modes
+		// Start the robot rotating clockwise
+		telemetry.addData("Compass", "Calibration mode. Turning the robot...");
+		telemetry.update();
+		robot.leftDrive.setPower(MOTOR_POWER);
+		robot.rightDrive.setPower(-MOTOR_POWER);
 
-        // Start the robot rotating clockwise
-        telemetry.addData("Compass", "Calibration mode. Turning the robot...");
-        telemetry.update();
-        robot.leftDrive.setPower(MOTOR_POWER);
-        robot.rightDrive.setPower(-MOTOR_POWER);
+		// run until time expires OR the driver presses STOP;
+		runtime.reset();
+		while (opModeIsActive() && (runtime.time() < CAL_TIME_SEC)) {
+			idle();
+		}
 
-        // run until time expires OR the driver presses STOP;
-        runtime.reset();
-        while (opModeIsActive() && (runtime.time() < CAL_TIME_SEC)) {
-            idle();
-        }
+		// Stop all motors and turn off claibration
+		robot.leftDrive.setPower(0);
+		robot.rightDrive.setPower(0);
+		compass.setMode(CompassSensor.CompassMode.MEASUREMENT_MODE);
+		telemetry.addData("Compass", "Returning to measurement mode");
+		telemetry.update();
 
-        // Stop all motors and turn off claibration
-        robot.leftDrive.setPower(0);
-        robot.rightDrive.setPower(0);
-        compass.setMode(CompassSensor.CompassMode.MEASUREMENT_MODE);
-        telemetry.addData("Compass", "Returning to measurement mode");
-        telemetry.update();
+		sleep(HOLD_TIME_MS); // Just do a sleep while we switch modes
 
-        sleep(HOLD_TIME_MS);  // Just do a sleep while we switch modes
-
-        // Report whether the Calibration was successful or not.
-        if (compass.calibrationFailed())
-            telemetry.addData("Compass", "Calibrate Failed. Try Again!");
-        else
-            telemetry.addData("Compass", "Calibrate Passed.");
-        telemetry.update();
-    }
+		// Report whether the Calibration was successful or not.
+		if (compass.calibrationFailed()) telemetry.addData(
+			"Compass",
+			"Calibrate Failed. Try Again!"
+		); else telemetry.addData("Compass", "Calibrate Passed.");
+		telemetry.update();
+	}
 }

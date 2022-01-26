@@ -2,7 +2,6 @@
 
 Welcome to the 2021 to 2022 freight frenzy codebase for team 701 Gonk Squad 2.0
 
-
 [road runner quickstart documentation](https://acme-robotics.gitbook.io/road-runner/quickstart/introduction)
 
 [road runner documentation](https://learnroadrunner.com)
@@ -13,23 +12,23 @@ Welcome to the 2021 to 2022 freight frenzy codebase for team 701 Gonk Squad 2.0
 
 [Simple Examples of PID control](https://www.youtube.com/watch?v=XfAt6hNV8XM)
 
-
 ## Hardware Map
 
-- leftFront: Front Left Mechnum Motor
-- leftRear: Rear Left mechnum Motor
-- rightFront: Front Right Mechnum Motor
-- rightRear: Rear Right Mechnum Motor
+-   leftFront: Front Left Mechnum Motor
+-   leftRear: Rear Left mechnum Motor
+-   rightFront: Front Right Mechnum Motor
+-   rightRear: Rear Right Mechnum Motor
 
-- leftFront: Left Encoder
-- rightFront: Right Encoder
-- rightRear: Back (Front in code) Encoder
+-   leftFront: Left Encoder
+-   rightFront: Right Encoder
+-   rightRear: Back (Front in code) Encoder
 
-- spinny: Spinny Motor
+-   spinny: Spinny Motor
 
 ## Other Setup
 
 From [EasyOpenCv Readme](https://github.com/OpenFTC/EasyOpenCV/blob/master/readme.md)
+
 ```
 Because EasyOpenCv depends on OpenCV-Repackaged, you will also need to copy libOpenCvAndroid453.so
 from the /doc/native_libs folder of that repo into the FIRST folder on the USB storage of the Robot

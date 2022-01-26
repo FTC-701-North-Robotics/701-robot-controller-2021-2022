@@ -1,5 +1,3 @@
-
-
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
@@ -12,7 +10,6 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 
 @TeleOp
 public class skcusmac extends OpMode {
-
     private DcMotor lbDrive = null;
     private DcMotor rbDrive = null;
     private DcMotor lfDrive = null;
@@ -268,7 +265,4 @@ public class skcusmac extends OpMode {
         }
         //telemetry.update();
     }
-
-
-
 }
