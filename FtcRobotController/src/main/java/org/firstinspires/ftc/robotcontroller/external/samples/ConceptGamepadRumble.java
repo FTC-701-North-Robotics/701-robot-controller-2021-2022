@@ -194,9 +194,7 @@ public class ConceptGamepadRumble extends LinearOpMode {
 			// BUT !!!  Skip it altogether if the Gamepad is already rumbling.
 			// ----------------------------------------------------------------------------------------
 			if (currentA && !lastA) {
-				if (
-					!gamepad1.isRumbling()
-				) gamepad1.rumbleBlips(3); // Check for possible overlap of rumbles.
+				if (!gamepad1.isRumbling()) gamepad1.rumbleBlips(3); // Check for possible overlap of rumbles.
 			}
 			lastA = currentA; // remember the current button state for next time around the loop
 

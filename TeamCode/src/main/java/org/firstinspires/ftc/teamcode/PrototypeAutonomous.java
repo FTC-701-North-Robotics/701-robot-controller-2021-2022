@@ -32,14 +32,13 @@ public class PrototypeAutonomous extends LinearOpMode {
 
 	@Override
 	public void runOpMode() throws InterruptedException {
-		lbDrive = hardwareMap.get(DcMotor.class, "leftRear");  // These hardware map names
+		lbDrive = hardwareMap.get(DcMotor.class, "leftRear"); // These hardware map names
 		rbDrive = hardwareMap.get(DcMotor.class, "rightRear"); // are compatable with RoadRunners
 		lfDrive = hardwareMap.get(DcMotor.class, "leftFront"); // Defaults
 		rfDrive = hardwareMap.get(DcMotor.class, "rightFront");
 
 		spinny = hardwareMap.get(DcMotor.class, "spinny");
 		winch = hardwareMap.get(DcMotor.class, "winch");
-
 
 		winch.setTargetPosition(0);
 		winch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -60,12 +59,8 @@ public class PrototypeAutonomous extends LinearOpMode {
 
 		switch (duck) {
 			case TOP:
-
 		}
-
-
 	}
-
 
 	public DuckPosition getDuckPos() {
 		return DuckPosition.BOTTOM;

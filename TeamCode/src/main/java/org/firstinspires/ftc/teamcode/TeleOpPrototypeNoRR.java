@@ -2,18 +2,17 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
-
 import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
-
 
 @TeleOp(name = "TeleOpPrototype", group = "Prototypes")
 public class TeleOpPrototypeNoRR extends LinearOpMode {
+
 	// Declare Motors
 	private DcMotor lbDrive = null;
 	private DcMotor rbDrive = null;
@@ -36,13 +35,12 @@ public class TeleOpPrototypeNoRR extends LinearOpMode {
 
 	private Servo outTakeBox = null;
 
-
 	@Override
 	public void runOpMode() {
 		telemetry.addData("Status", "Initialized");
 		telemetry.update();
 
-		lbDrive = hardwareMap.get(DcMotor.class, "leftRear");  // These hardware map names
+		lbDrive = hardwareMap.get(DcMotor.class, "leftRear"); // These hardware map names
 		rbDrive = hardwareMap.get(DcMotor.class, "rightRear"); // are compatable with RoadRunners
 		lfDrive = hardwareMap.get(DcMotor.class, "leftFront"); // Defaults
 		rfDrive = hardwareMap.get(DcMotor.class, "rightFront");
@@ -73,14 +71,14 @@ public class TeleOpPrototypeNoRR extends LinearOpMode {
 
 		// run until the end of the match (driver presses STOP)
 		while (opModeIsActive()) {
-
 			double drive = gamepad1.left_stick_y;
 			double turn = gamepad1.right_stick_x;
 			double strafe = gamepad1.left_stick_x;
 
 			double spinInput = gamepad1.left_trigger;
 
-			double intakeSpeed = gamepad2.right_trigger * gamepad2.right_trigger; // Parabola, works because we only need it to go fowards
+			double intakeSpeed =
+				gamepad2.right_trigger * gamepad2.right_trigger; // Parabola, works because we only need it to go fowards
 			double outtakeServo = gamepad2.left_trigger * 180 + 10; // trigger + total angle + offset
 
 			lbDrivePower = drive - turn - strafe;
@@ -96,17 +94,17 @@ public class TeleOpPrototypeNoRR extends LinearOpMode {
 			leftIntake.setPower(intakeSpeed);
 			rightIntake.setPower(intakeSpeed);
 
-//			if (intakeSpeed >= 0.1) {
-//				leftIntake.setPower(intakeSpeed);
-//				rightIntake.setPower(intakeSpeed);
-//			} else if (gamepad2.right_bumper) {
-//				leftIntake.setPower(-intakeSpeed);
-//				rightIntake.setPower(-intakeSpeed);
-//				telemetry.addData("INTAKE REVERSED", "^^");
-//			} else {
-//				leftIntake.setPower(0);
-//				rightIntake.setPower(0);
-//			}
+			//			if (intakeSpeed >= 0.1) {
+			//				leftIntake.setPower(intakeSpeed);
+			//				rightIntake.setPower(intakeSpeed);
+			//			} else if (gamepad2.right_bumper) {
+			//				leftIntake.setPower(-intakeSpeed);
+			//				rightIntake.setPower(-intakeSpeed);
+			//				telemetry.addData("INTAKE REVERSED", "^^");
+			//			} else {
+			//				leftIntake.setPower(0);
+			//				rightIntake.setPower(0);
+			//			}
 
 			spinny.setPower(spinInput);
 
@@ -126,11 +124,17 @@ public class TeleOpPrototypeNoRR extends LinearOpMode {
 				telemetry.addData("Winch Movement", "NEUTRAL");
 			}
 
-			telemetry.addData("Motors", "left back (%.2f), right back (%.2f), left front (%.2f), right front (%.2f)", lbDrivePower, rbDrivePower, lfDrivePower, rfDrivePower);
+			telemetry.addData(
+				"Motors",
+				"left back (%.2f), right back (%.2f), left front (%.2f), right front (%.2f)",
+				lbDrivePower,
+				rbDrivePower,
+				lfDrivePower,
+				rfDrivePower
+			);
 			telemetry.addData("Spinny Thing Motor", spinInput);
 			telemetry.addData("Intake Power", gamepad2.right_trigger);
 			telemetry.addData("Drop Down Motor", gamepad2.left_stick_y);
-
 
 			telemetry.update();
 		}

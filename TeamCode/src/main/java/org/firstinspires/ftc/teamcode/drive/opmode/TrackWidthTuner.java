@@ -8,7 +8,6 @@ import com.acmerobotics.roadrunner.util.Angle;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.MovingStatistics;
-
 import org.firstinspires.ftc.robotcore.internal.system.Misc;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -25,63 +24,77 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 @Config
 @Autonomous(group = "drive")
 public class TrackWidthTuner extends LinearOpMode {
-    public static double ANGLE = 180; // deg
-    public static int NUM_TRIALS = 5;
-    public static int DELAY = 1000; // ms
 
-    @Override
-    public void runOpMode() throws InterruptedException {
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+	public static double ANGLE = 180; // deg
+	public static int NUM_TRIALS = 5;
+	public static int DELAY = 1000; // ms
 
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        // TODO: if you haven't already, set the localizer to something that doesn't depend on
-        // drive encoders for computing the heading
+	@Override
+	public void runOpMode() throws InterruptedException {
+		telemetry =
+			new MultipleTelemetry(
+				telemetry,
+				FtcDashboard.getInstance().getTelemetry()
+			);
 
-        telemetry.addLine("Press play to begin the track width tuner routine");
-        telemetry.addLine("Make sure your robot has enough clearance to turn smoothly");
-        telemetry.update();
+		SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+		// TODO: if you haven't already, set the localizer to something that doesn't depend on
+		// drive encoders for computing the heading
 
-        waitForStart();
+		telemetry.addLine("Press play to begin the track width tuner routine");
+		telemetry.addLine(
+			"Make sure your robot has enough clearance to turn smoothly"
+		);
+		telemetry.update();
 
-        if (isStopRequested()) return;
+		waitForStart();
 
-        telemetry.clearAll();
-        telemetry.addLine("Running...");
-        telemetry.update();
+		if (isStopRequested()) return;
 
-        MovingStatistics trackWidthStats = new MovingStatistics(NUM_TRIALS);
-        for (int i = 0; i < NUM_TRIALS; i++) {
-            drive.setPoseEstimate(new Pose2d());
+		telemetry.clearAll();
+		telemetry.addLine("Running...");
+		telemetry.update();
 
-            // it is important to handle heading wraparounds
-            double headingAccumulator = 0;
-            double lastHeading = 0;
+		MovingStatistics trackWidthStats = new MovingStatistics(NUM_TRIALS);
+		for (int i = 0; i < NUM_TRIALS; i++) {
+			drive.setPoseEstimate(new Pose2d());
 
-            drive.turnAsync(Math.toRadians(ANGLE));
+			// it is important to handle heading wraparounds
+			double headingAccumulator = 0;
+			double lastHeading = 0;
 
-            while (!isStopRequested() && drive.isBusy()) {
-                double heading = drive.getPoseEstimate().getHeading();
-                headingAccumulator += Angle.norm(heading - lastHeading);
-                lastHeading = heading;
+			drive.turnAsync(Math.toRadians(ANGLE));
 
-                drive.update();
-            }
+			while (!isStopRequested() && drive.isBusy()) {
+				double heading = drive.getPoseEstimate().getHeading();
+				headingAccumulator += Angle.norm(heading - lastHeading);
+				lastHeading = heading;
 
-            double trackWidth = DriveConstants.TRACK_WIDTH * Math.toRadians(ANGLE) / headingAccumulator;
-            trackWidthStats.add(trackWidth);
+				drive.update();
+			}
 
-            sleep(DELAY);
-        }
+			double trackWidth =
+				DriveConstants.TRACK_WIDTH *
+				Math.toRadians(ANGLE) /
+				headingAccumulator;
+			trackWidthStats.add(trackWidth);
 
-        telemetry.clearAll();
-        telemetry.addLine("Tuning complete");
-        telemetry.addLine(Misc.formatInvariant("Effective track width = %.2f (SE = %.3f)",
-                trackWidthStats.getMean(),
-                trackWidthStats.getStandardDeviation() / Math.sqrt(NUM_TRIALS)));
-        telemetry.update();
+			sleep(DELAY);
+		}
 
-        while (!isStopRequested()) {
-            idle();
-        }
-    }
+		telemetry.clearAll();
+		telemetry.addLine("Tuning complete");
+		telemetry.addLine(
+			Misc.formatInvariant(
+				"Effective track width = %.2f (SE = %.3f)",
+				trackWidthStats.getMean(),
+				trackWidthStats.getStandardDeviation() / Math.sqrt(NUM_TRIALS)
+			)
+		);
+		telemetry.update();
+
+		while (!isStopRequested()) {
+			idle();
+		}
+	}
 }

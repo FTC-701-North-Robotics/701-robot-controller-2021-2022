@@ -1,44 +1,43 @@
 package org.firstinspires.ftc.teamcode.trajectorysequence;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-
-import org.firstinspires.ftc.teamcode.trajectorysequence.sequencesegment.SequenceSegment;
-
 import java.util.Collections;
 import java.util.List;
+import org.firstinspires.ftc.teamcode.trajectorysequence.sequencesegment.SequenceSegment;
 
 public class TrajectorySequence {
-    private final List<SequenceSegment> sequenceList;
 
-    public TrajectorySequence(List<SequenceSegment> sequenceList) {
-        if (sequenceList.size() == 0) throw new EmptySequenceException();
+	private final List<SequenceSegment> sequenceList;
 
-        this.sequenceList = Collections.unmodifiableList(sequenceList);
-    }
+	public TrajectorySequence(List<SequenceSegment> sequenceList) {
+		if (sequenceList.size() == 0) throw new EmptySequenceException();
 
-    public Pose2d start() {
-        return sequenceList.get(0).getStartPose();
-    }
+		this.sequenceList = Collections.unmodifiableList(sequenceList);
+	}
 
-    public Pose2d end() {
-        return sequenceList.get(sequenceList.size() - 1).getEndPose();
-    }
+	public Pose2d start() {
+		return sequenceList.get(0).getStartPose();
+	}
 
-    public double duration() {
-        double total = 0.0;
+	public Pose2d end() {
+		return sequenceList.get(sequenceList.size() - 1).getEndPose();
+	}
 
-        for (SequenceSegment segment : sequenceList) {
-            total += segment.getDuration();
-        }
+	public double duration() {
+		double total = 0.0;
 
-        return total;
-    }
+		for (SequenceSegment segment : sequenceList) {
+			total += segment.getDuration();
+		}
 
-    public SequenceSegment get(int i) {
-        return sequenceList.get(i);
-    }
+		return total;
+	}
 
-    public int size() {
-        return sequenceList.size();
-    }
+	public SequenceSegment get(int i) {
+		return sequenceList.get(i);
+	}
+
+	public int size() {
+		return sequenceList.size();
+	}
 }
