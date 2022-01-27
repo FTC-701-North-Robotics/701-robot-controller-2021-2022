@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -7,6 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.subsystem.Drive;
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.subsystem.OutTake;
+import org.firstinspires.ftc.teamcode.subsystem.LED;
 
 
 @TeleOp(name = "Sub System Rewrite", group = "Linear Opmode")
@@ -16,7 +18,7 @@ public class SubsystemRewrite extends LinearOpMode {
 
 	private Drive drive = new Drive(hardwareMap);
 	private Intake intake = new Intake(hardwareMap);
-
+	private LED led = new LED(hardwareMap);
 
 	@Override
 	public void runOpMode() {
@@ -27,6 +29,9 @@ public class SubsystemRewrite extends LinearOpMode {
 		runtime.reset();
 
 		while (opModeIsActive()) {
+
+			led.setLights(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_PARTY_PALETTE);
+
 			double foward = gamepad1.left_stick_y;
 			double turn = gamepad1.right_stick_x;
 			double strafe = gamepad1.left_stick_x;
