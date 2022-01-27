@@ -8,8 +8,7 @@ import org.firstinspires.ftc.teamcode.subsystem.Drive;
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.subsystem.OutTake;
 
-
-@TeleOp(name = "Sub System Rewrite", group = "Linear Opmode")
+@TeleOp(name = "Sub System Rewrite", group = "prototype")
 public class SubsystemRewrite extends LinearOpMode {
 
 	private ElapsedTime runtime = new ElapsedTime();
@@ -55,9 +54,10 @@ public class SubsystemRewrite extends LinearOpMode {
 
 			intake.setDropSpeed(gamepad2.right_stick_y);
 
-
 			// Intake Speed
-			intake.setIntakeSpeed(-gamepad2.left_trigger + gamepad2.right_trigger);
+			intake.setIntakeSpeed(
+				-gamepad2.left_trigger + gamepad2.right_trigger
+			);
 
 			// Show the elapsed game time
 			telemetry.addData("Status", "Run Time: " + runtime.toString());

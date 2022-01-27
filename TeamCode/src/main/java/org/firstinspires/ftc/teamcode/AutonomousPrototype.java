@@ -1,13 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-@Autonomous(name = "AutonomousPrototype", group = "drive")
+import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
+
+@Autonomous(name = "AutonomousPrototype", group = "prototype")
 public class AutonomousPrototype extends LinearOpMode {
 
 	public static double DISTANCE = 50;

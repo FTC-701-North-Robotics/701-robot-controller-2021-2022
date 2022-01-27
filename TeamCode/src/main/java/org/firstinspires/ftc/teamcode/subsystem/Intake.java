@@ -12,6 +12,7 @@ enum IntakePosition {
 }
 
 public class Intake {
+
 	private final double DROP_SPEED = 0.2;
 	public TouchSensor inTouch;
 	public ElapsedTime elapsedTime;

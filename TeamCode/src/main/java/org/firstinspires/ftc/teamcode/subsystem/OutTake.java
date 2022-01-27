@@ -45,6 +45,7 @@ public class OutTake {
 	 * Sub class for Winch control
 	 */
 	public class Winch {
+
 		public final double MAX_SPEED = 0.9;
 		public final double MIDDLE_TARGET = 255;
 		public final double MIDDLE_LENIANCY = 10;
@@ -110,6 +111,7 @@ public class OutTake {
 	 * Controls outtake box
 	 */
 	public class Box {
+
 		/**
 		 * Dumps contents of box
 		 */
