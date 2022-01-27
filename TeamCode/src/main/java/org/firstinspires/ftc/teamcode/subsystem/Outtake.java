@@ -15,10 +15,10 @@ enum WinchPosition {
 	MANUAL,
 }
 
-public class OutTake {
+public class Outtake {
 
-	public static OutTake.Box Box;
-	public static OutTake.Winch Winch;
+	public static Outtake.Box Box;
+	public static Outtake.Winch Winch;
 
 	public DcMotor winch = null;
 	public Servo outTakeBox = null;
@@ -30,7 +30,7 @@ public class OutTake {
 	 *
 	 * @param hardwareMap Current OpMode's hardwareMap
 	 */
-	public OutTake(HardwareMap hardwareMap) {
+	public Outtake(HardwareMap hardwareMap) {
 		winch = hardwareMap.get(DcMotor.class, "outtakeWinch");
 		outTakeBox = hardwareMap.get(Servo.class, "outtakeBoxServo");
 
@@ -38,7 +38,7 @@ public class OutTake {
 
 		winch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-		Box = new OutTake.Box();
+		Box = new Outtake.Box();
 	}
 
 	/**
