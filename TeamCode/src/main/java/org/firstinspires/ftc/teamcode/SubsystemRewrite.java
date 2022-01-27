@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.subsystem.Drive;
+import org.firstinspires.ftc.teamcode.subsystem.Duck;
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.subsystem.OutTake;
 
@@ -18,6 +19,7 @@ public class SubsystemRewrite extends LinearOpMode {
 		Drive drive = new Drive(hardwareMap);
 		Intake intake = new Intake(hardwareMap);
 		OutTake outTake = new OutTake(hardwareMap);
+		Duck duck = new Duck(hardwareMap);
 
 		telemetry.addData("Status", "Initialized");
 		telemetry.update();
@@ -58,6 +60,8 @@ public class SubsystemRewrite extends LinearOpMode {
 			intake.setIntakeSpeed(
 				-gamepad2.left_trigger + gamepad2.right_trigger
 			);
+
+			duck.setPower(gamepad2.a ? 0.5 : 0);
 
 			// Show the elapsed game time
 			telemetry.addData("Status", "Run Time: " + runtime.toString());
