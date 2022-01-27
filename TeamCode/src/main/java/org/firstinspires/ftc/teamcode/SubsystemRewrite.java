@@ -26,8 +26,8 @@ public class SubsystemRewrite extends LinearOpMode {
 		outtake = new Outtake(hardwareMap);
 		duck = new Duck(hardwareMap);
 		Bulk.auto(hardwareMap);
-		new Thread(new outtakeThread());
-		
+		new Thread(new outtakeThread()).start();
+
 		telemetry.addData("Status", "Initialized");
 		telemetry.update();
 
