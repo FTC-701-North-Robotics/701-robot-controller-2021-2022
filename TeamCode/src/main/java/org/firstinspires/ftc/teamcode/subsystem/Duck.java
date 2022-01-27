@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Duck {
+
 	public DcMotor motor;
 
 	/**
@@ -26,6 +27,4 @@ public class Duck {
 	public void setPower(double power) {
 		motor.setPower(power);
 	}
-
-
 }

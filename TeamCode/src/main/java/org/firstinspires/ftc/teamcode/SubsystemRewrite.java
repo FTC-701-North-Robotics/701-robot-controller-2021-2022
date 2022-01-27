@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.subsystem.Drive;
 import org.firstinspires.ftc.teamcode.subsystem.Duck;
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.subsystem.OutTake;
+import org.firstinspires.ftc.teamcode.util.Bulk;
 
 @TeleOp(name = "Sub System Rewrite", group = "prototype")
 public class SubsystemRewrite extends LinearOpMode {
@@ -20,6 +21,7 @@ public class SubsystemRewrite extends LinearOpMode {
 		Intake intake = new Intake(hardwareMap);
 		OutTake outTake = new OutTake(hardwareMap);
 		Duck duck = new Duck(hardwareMap);
+		Bulk.auto(hardwareMap);
 
 		telemetry.addData("Status", "Initialized");
 		telemetry.update();

@@ -11,9 +11,9 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 @TeleOp(name = "skcusmac", group = "main")
 public class skcusmac extends OpMode {
 
+	boolean outtakeup;
 	private double scale = 1.0;
 	private int intakeup = 1;
-	boolean outtakeup;
 	private DcMotor intake;
 	private DcMotor duckspin;
 	private CRServo Lin;
