@@ -14,8 +14,6 @@ public class SubsystemRewrite extends LinearOpMode {
 
 	private ElapsedTime runtime = new ElapsedTime();
 
-
-
 	@Override
 	public void runOpMode() {
 		Drive drive = new Drive(hardwareMap);
@@ -33,21 +31,13 @@ public class SubsystemRewrite extends LinearOpMode {
 			double turn = gamepad1.right_stick_x;
 			double strafe = gamepad1.left_stick_x;
 
-			double lbDrivePower = foward - turn - strafe;
-			double rbDrivePower = foward + turn + strafe;
-			double lfDrivePower = foward - turn + strafe;
-			double rfDrivePower = foward + turn - strafe;
-
-			drive.leftRear.setPower(lbDrivePower);
-			drive.leftFront.setPower(lfDrivePower);
-			drive.rightRear.setPower(rbDrivePower);
-			drive.rightFront.setPower(rfDrivePower);
+			drive.vectorDrive(strafe, foward, turn);
 
 			// Outtake Box
 			if (gamepad2.left_bumper) {
-				outTake.Box.Reset();
+				outTake.Box.reset();
 			} else if (gamepad2.right_bumper) {
-				outTake.Box.Dump();
+				outTake.Box.dump();
 			}
 
 			// Outtake Winch
@@ -63,11 +53,11 @@ public class SubsystemRewrite extends LinearOpMode {
 				}
 			}
 
-			intake.SetDropSpeed(gamepad2.right_stick_y);
+			intake.setDropSpeed(gamepad2.right_stick_y);
 
 
 			// Intake Speed
-			intake.SetIntakeSpeed(-gamepad2.left_trigger + gamepad2.right_trigger);
+			intake.setIntakeSpeed(-gamepad2.left_trigger + gamepad2.right_trigger);
 
 			// Show the elapsed game time
 			telemetry.addData("Status", "Run Time: " + runtime.toString());

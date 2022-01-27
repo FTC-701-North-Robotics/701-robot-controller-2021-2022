@@ -20,6 +20,11 @@ public class Intake {
 	public IntakePosition intakePos = IntakePosition.UP;
 	private DcMotor dropDown;
 
+	/**
+	 * Subsystem class for intake
+	 *
+	 * @param hardwareMap Current OpMode hardware map
+	 */
 	public Intake(HardwareMap hardwareMap) {
 		leftIntake = hardwareMap.get(CRServo.class, "leftIntake");
 		rightIntake = hardwareMap.get(CRServo.class, "rightIntake");
@@ -30,14 +35,20 @@ public class Intake {
 		dropDown.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 	}
 
-	public void Down() {
+	/**
+	 * Sets intake to down position
+	 */
+	public void down() {
 		while (dropDown.getCurrentPosition() < -90) {
 			dropDown.setPower(-DROP_SPEED / 2);
 		}
 		dropDown.setPower(0);
 	}
 
-	public void Up() {
+	/**
+	 * Sets intake to up position
+	 */
+	public void up() {
 		while (!inTouch.isPressed()) {
 			dropDown.setPower(DROP_SPEED);
 		}
@@ -45,11 +56,31 @@ public class Intake {
 		dropDown.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 	}
 
-	public void SetDropSpeed(double Speed) {
+	/**
+	 * Gets the current position of the drop down
+	 *
+	 * @return current position
+	 */
+	public double currentPos() {
+		return dropDown.getCurrentPosition();
+	}
+
+	/**
+	 * Manual override of speed, useful in teleop
+	 *
+	 * @param Speed
+	 */
+	public void setDropSpeed(double Speed) {
 		dropDown.setPower(Speed);
 	}
 
-	public void SetIntakeSpeed(double Speed) {
+	/**
+	 * Sets the speed of the intake wheels,
+	 * Note: positive value pulls objects in
+	 *
+	 * @param Speed of wheels, between -1.0 and 1.0
+	 */
+	public void setIntakeSpeed(double Speed) {
 		leftIntake.setPower(Speed);
 		rightIntake.setPower(Speed);
 	}
