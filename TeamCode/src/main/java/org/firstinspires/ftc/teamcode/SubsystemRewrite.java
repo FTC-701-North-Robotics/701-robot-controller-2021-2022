@@ -14,12 +14,14 @@ public class SubsystemRewrite extends LinearOpMode {
 
 	private ElapsedTime runtime = new ElapsedTime();
 
-	private Drive drive = new Drive(hardwareMap);
-	private Intake intake = new Intake(hardwareMap);
 
 
 	@Override
 	public void runOpMode() {
+		Drive drive = new Drive(hardwareMap);
+		Intake intake = new Intake(hardwareMap);
+		OutTake outTake = new OutTake(hardwareMap);
+
 		telemetry.addData("Status", "Initialized");
 		telemetry.update();
 
@@ -43,23 +45,26 @@ public class SubsystemRewrite extends LinearOpMode {
 
 			// Outtake Box
 			if (gamepad2.left_bumper) {
-				OutTake.Box.Reset();
+				outTake.Box.Reset();
 			} else if (gamepad2.right_bumper) {
-				OutTake.Box.Dump();
+				outTake.Box.Dump();
 			}
 
 			// Outtake Winch
 			if (Math.abs(gamepad2.left_stick_y) > 0.05) {
-				OutTake.Winch.setManualPower(-gamepad2.left_stick_y);
+				outTake.Winch.setManualPower(-gamepad2.left_stick_y);
 			} else {
 				if (gamepad2.dpad_up) {
-					OutTake.Winch.up();
+					outTake.Winch.up();
 				} else if (gamepad2.dpad_down) {
-					OutTake.Winch.down();
+					outTake.Winch.down();
 				} else if (gamepad2.dpad_left || gamepad2.dpad_right) {
-					OutTake.Winch.middle();
+					outTake.Winch.middle();
 				}
 			}
+
+			intake.SetDropSpeed(gamepad2.right_stick_y);
+
 
 			// Intake Speed
 			intake.SetIntakeSpeed(-gamepad2.left_trigger + gamepad2.right_trigger);
