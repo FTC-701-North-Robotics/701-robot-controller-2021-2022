@@ -26,7 +26,7 @@ public class SubsystemRewrite extends LinearOpMode {
 		outtake = new Outtake(hardwareMap);
 		duck = new Duck(hardwareMap);
 		Bulk.auto(hardwareMap);
-		new Thread(new outtakeThread()).start();
+//		new Thread(new outtakeThread()).start();
 
 		telemetry.addData("Status", "Initialized");
 		telemetry.update();
@@ -41,14 +41,23 @@ public class SubsystemRewrite extends LinearOpMode {
 
 			drive.vectorDrive(strafe, forward, turn);
 
-			intake.setDropSpeed(gamepad2.right_stick_y);
+			intake.setDropSpeed(-gamepad2.right_stick_y);
 
 			// Intake Speed
 			intake.setIntakeSpeed(
-				-gamepad2.left_trigger + gamepad2.right_trigger
+				-gamepad2.right_trigger + gamepad2.left_trigger
 			);
 
 			duck.setPower(gamepad2.a ? 0.5 : 0);
+
+			if (gamepad2.left_bumper) {
+				outtake.Box.reset();
+			} else if (gamepad2.right_bumper) {
+				outtake.Box.dump();
+			}
+
+
+			outtake.Winch.setManualPower(-gamepad2.left_stick_y);
 
 			// Show the elapsed game time
 			telemetry.addData("Status", "Run Time: " + runtime.toString());
@@ -75,13 +84,14 @@ public class SubsystemRewrite extends LinearOpMode {
 				if (Math.abs(gamepad2.left_stick_y) > 0.05) {
 					outtake.Winch.setManualPower(-gamepad2.left_stick_y);
 				} else {
-					if (gamepad2.dpad_up) {
-						outtake.Winch.up();
-					} else if (gamepad2.dpad_down) {
-						outtake.Winch.down();
-					} else if (gamepad2.dpad_left || gamepad2.dpad_right) {
-						outtake.Winch.middle();
-					}
+					Outtake.Winch.setManualPower(0);
+//					if (gamepad2.dpad_up) {
+//						outtake.Winch.up();
+//					} else if (gamepad2.dpad_down) {
+//						outtake.Winch.down();
+//					} else if (gamepad2.dpad_left || gamepad2.dpad_right) {
+//						outtake.Winch.middle();
+//					}
 				}
 
 			}

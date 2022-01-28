@@ -55,10 +55,10 @@ public class Drive {
 	 * @param heading rotational value
 	 */
 	public void vectorDrive(double x, double y, double heading) {
-		leftRear.setPower(y - heading - x);
-		leftFront.setPower(y - heading + x);
-		rightRear.setPower(y + heading + x);
-		rightFront.setPower(y + heading - x);
+		leftRear.setPower(y - heading + x);
+		leftFront.setPower(y - heading - x);
+		rightRear.setPower(y + heading - x);
+		rightFront.setPower(y + heading + x);
 	}
 
 	/**

@@ -38,6 +38,7 @@ public class Outtake {
 
 		winch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+		Winch = new Outtake.Winch();
 		Box = new Outtake.Box();
 	}
 
