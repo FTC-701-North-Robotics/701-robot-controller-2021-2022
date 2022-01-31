@@ -5,9 +5,8 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.checkerframework.checker.units.qual.C;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.subsystem.Camera;
+import org.firstinspires.ftc.teamcode.vision.Vision;
 import org.firstinspires.ftc.teamcode.vision.Zach;
 
 @Autonomous(name = "AutonomousPrototype", group = "prototype")
@@ -18,7 +17,7 @@ public class AutonomousPrototype extends LinearOpMode {
 	@Override
 	public void runOpMode() throws InterruptedException {
 		SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-		Zach camera = new Zach(hardwareMap);
+		Vision camera = new Zach(hardwareMap);
 		camera.openDashboardStream();
 
 		Trajectory trajectoryForward = drive
@@ -31,13 +30,14 @@ public class AutonomousPrototype extends LinearOpMode {
 			.back(DISTANCE)
 			.build();
 
+		telemetry.addData("Current Target: ", String.valueOf(camera.getTargetLevel()));
+		telemetry.update();
+
 		waitForStart();
 
 		while (opModeIsActive() && !isStopRequested()) {
 			drive.followTrajectory(trajectoryForward);
 			drive.followTrajectory(trajectoryBackward);
-			telemetry.addData("Current Target: ", String.valueOf(camera.getTargetLevel()));
-			telemetry.update();
 		}
 	}
 }
