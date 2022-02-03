@@ -9,8 +9,8 @@ import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.vision.Vision;
 import org.firstinspires.ftc.teamcode.vision.Zach;
 
-@Autonomous(name = "AutonomousPrototype", group = "prototype")
-public class AutonomousPrototype extends LinearOpMode {
+@Autonomous(name = "VisionPrototype", group = "prototype")
+public class VisionPrototype extends LinearOpMode {
 
 	public static double DISTANCE = 50;
 
@@ -36,8 +36,8 @@ public class AutonomousPrototype extends LinearOpMode {
 		waitForStart();
 
 		while (opModeIsActive() && !isStopRequested()) {
-			drive.followTrajectory(trajectoryForward);
-			drive.followTrajectory(trajectoryBackward);
+			telemetry.addData("Current Target: ", String.valueOf(camera.getTargetLevel()));
+			telemetry.update();
 		}
 	}
 }

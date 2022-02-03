@@ -12,9 +12,10 @@ import org.openftc.easyopencv.OpenCvWebcam;
 
 public class Camera {
 	public OpenCvWebcam webcam;
-	public int streamWidth = 1024;
-	public int streamHeight = 576;
+	public int streamWidth = 640;
+	public int streamHeight = 360;
 
+	
 	public Camera(HardwareMap hardwareMap) {
 		WebcamName webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
 		int cameraMonitorViewId = hardwareMap.appContext
