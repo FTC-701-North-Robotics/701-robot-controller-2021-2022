@@ -23,7 +23,17 @@ Welcome to the 2021 to 2022 freight frenzy codebase for team 701 Gonk Squad 2.0
 -   rightFront: Right Encoder
 -   rightRear: Back (Front in code) Encoder
 
--   spinny: Spinny Motor
+-	leftIntake: Left intake wheel
+-	rightIntake: Right intake wheel
+-	intakeTouch: Intake touch sensor
+
+-	duckSpin: Duck Spinning Motor
+
+-	winch: Outtake Winch
+-	outtakeBoxServo: Dumping box control servo
+-	winchTouch: Touch sensor to control winch
+
+-	LED: LEDs
 
 ## Other Setup
 

@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
-@TeleOp
+@TeleOp(name = "skcusmac", group = "main")
 public class skcusmac extends OpMode {
     private DcMotor lbDrive = null;
     private DcMotor rbDrive = null;
