@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.subsystem.Drive;
 import org.firstinspires.ftc.teamcode.subsystem.Duck;
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
-import org.firstinspires.ftc.teamcode.subsystem.OutTake;
-import org.firstinspires.ftc.teamcode.subsystem.LED;
+import org.firstinspires.ftc.teamcode.subsystem.Outtake;
+import org.firstinspires.ftc.teamcode.subsystem.Led;
 
 import org.firstinspires.ftc.teamcode.util.Bulk;
 
@@ -20,11 +20,9 @@ public class SubsystemRewrite extends LinearOpMode {
 	public Intake intake;
 	public Outtake outtake;
 	public Duck duck;
-	private ElapsedTime runtime = new ElapsedTime();
+	public Led led;
 
-	private Drive drive = new Drive(hardwareMap);
-	private Intake intake = new Intake(hardwareMap);
-	private LED led = new LED(hardwareMap);
+	private ElapsedTime runtime = new ElapsedTime();
 
 	@Override
 	public void runOpMode() {
@@ -32,7 +30,10 @@ public class SubsystemRewrite extends LinearOpMode {
 		intake = new Intake(hardwareMap);
 		outtake = new Outtake(hardwareMap);
 		duck = new Duck(hardwareMap);
+		led = new Led(hardwareMap);
+
 		Bulk.auto(hardwareMap);
+		led.setPattern(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_PARTY_PALETTE);
 
 		telemetry.addData("Status", "Initialized");
 		telemetry.update();
@@ -41,9 +42,7 @@ public class SubsystemRewrite extends LinearOpMode {
 		runtime.reset();
 
 		while (opModeIsActive()) {
-
-			led.setLights(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_PARTY_PALETTE);
-			double foward = gamepad1.left_stick_y;
+			double forward = gamepad1.left_stick_y;
 			double turn = gamepad1.right_stick_x;
 			double strafe = gamepad1.left_stick_x;
 
@@ -63,7 +62,6 @@ public class SubsystemRewrite extends LinearOpMode {
 			} else if (gamepad2.right_bumper) {
 				outtake.Box.dump();
 			}
-
 
 			outtake.Winch.setManualPower(-gamepad2.left_stick_y);
 

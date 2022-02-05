@@ -1,40 +1,36 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.tools;
 
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp
+import org.firstinspires.ftc.teamcode.subsystem.Led;
+
+@TeleOp(name = "LED showcase", group = "tools")
 public class LEDShowcase extends LinearOpMode {
 
-	RevBlinkinLedDriver LED;
+	Led LED;
 
 	@Override
 	public void runOpMode() throws InterruptedException {
-		LED = hardwareMap.get(RevBlinkinLedDriver.class, "LED");
+		LED = new Led(hardwareMap);
 
 		waitForStart();
-		while(opModeIsActive()) {
-			for(int i = 0; i<100; i++){
+		while (opModeIsActive()) {
+			for (int i = 0; i < 100; i++) {
 				LED.setPattern(RevBlinkinLedDriver.BlinkinPattern.fromNumber(i));
 				telemetry.addLine(String.valueOf(i));
 				telemetry.update();
-				while(opModeIsActive()) {
+				while (opModeIsActive()) {
 					if (gamepad1.a) {
 						break;
 					}
 				}
-				if(!opModeIsActive()) {
+				if (!opModeIsActive()) {
 					break;
 				}
 				sleep(1000);
 			}
 		}
 	}
-
-
-
-
 }
