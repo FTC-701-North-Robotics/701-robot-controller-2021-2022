@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -8,6 +9,8 @@ import org.firstinspires.ftc.teamcode.subsystem.Drive;
 import org.firstinspires.ftc.teamcode.subsystem.Duck;
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.subsystem.Outtake;
+import org.firstinspires.ftc.teamcode.subsystem.Led;
+
 import org.firstinspires.ftc.teamcode.util.Bulk;
 
 @TeleOp(name = "Sub System Rewrite", group = "prototype")
@@ -17,6 +20,8 @@ public class SubsystemRewrite extends LinearOpMode {
 	public Intake intake;
 	public Outtake outtake;
 	public Duck duck;
+	public Led led;
+
 	private ElapsedTime runtime = new ElapsedTime();
 
 	@Override
@@ -25,8 +30,10 @@ public class SubsystemRewrite extends LinearOpMode {
 		intake = new Intake(hardwareMap);
 		outtake = new Outtake(hardwareMap);
 		duck = new Duck(hardwareMap);
+		led = new Led(hardwareMap);
+
 		Bulk.auto(hardwareMap);
-//		new Thread(new outtakeThread()).start();
+		led.setPattern(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_PARTY_PALETTE);
 
 		telemetry.addData("Status", "Initialized");
 		telemetry.update();
@@ -55,7 +62,6 @@ public class SubsystemRewrite extends LinearOpMode {
 			} else if (gamepad2.right_bumper) {
 				outtake.Box.dump();
 			}
-
 
 			outtake.Winch.setManualPower(-gamepad2.left_stick_y);
 
