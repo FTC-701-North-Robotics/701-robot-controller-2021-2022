@@ -8,22 +8,13 @@
 
 ### Cool LED Codes
 
-2
-
-4
-
-5
-
-6
-
-10
-
-15|16 (very cool)
-
-37-40(heartbeats)
-
-55
-
-60-63 (red flashing)
-
-71
+- 2
+- 4
+- 5
+- 6
+- 10
+- 15|16 (very cool)
+- 37-40(heartbeats)
+- 55
+- 60-63 (red flashing)
+- 71
