@@ -16,7 +16,7 @@ public class Duck {
 		motor = hardwareMap.get(DcMotor.class, "duckSpin");
 
 		motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-		motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//		motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 	}
 
 	/**
