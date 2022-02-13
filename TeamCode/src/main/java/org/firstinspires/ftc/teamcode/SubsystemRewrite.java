@@ -90,7 +90,7 @@ public class SubsystemRewrite extends LinearOpMode {
 				if (Math.abs(gamepad2.left_stick_y) > 0.05) {
 					outtake.Winch.setManualPower(-gamepad2.left_stick_y);
 				} else {
-					Outtake.Winch.setManualPower(0);
+					outtake.Winch.setManualPower(0);
 //					if (gamepad2.dpad_up) {
 //						outtake.Winch.up();
 //					} else if (gamepad2.dpad_down) {

@@ -17,8 +17,8 @@ enum WinchPosition {
 
 public class Outtake {
 
-	public static Outtake.Box Box;
-	public static Outtake.Winch Winch;
+	public Outtake.Box Box;
+	public Outtake.Winch Winch;
 
 	public DcMotor winch = null;
 	public Servo outTakeBox = null;
@@ -34,7 +34,7 @@ public class Outtake {
 		winch = hardwareMap.get(DcMotor.class, "outtakeWinch");
 		outTakeBox = hardwareMap.get(Servo.class, "outtakeBoxServo");
 
-		winchTouch = hardwareMap.get(TouchSensor.class, "winchTouch");
+//		winchTouch = hardwareMap.get(TouchSensor.class, "winchTouch");
 
 		winch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
