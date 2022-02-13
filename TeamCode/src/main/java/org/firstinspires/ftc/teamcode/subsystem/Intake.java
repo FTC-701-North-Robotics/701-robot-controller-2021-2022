@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.subsystem;
 
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_TO_POSITION;
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
+
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -34,27 +37,23 @@ public class Intake {
 
 		dropDown = hardwareMap.get(DcMotor.class, "intakeDrop");
 		dropDown.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+		dropDown.setMode(STOP_AND_RESET_ENCODER);
 	}
 
 	/**
 	 * Sets intake to down position
 	 */
 	public void down() {
-		while (dropDown.getCurrentPosition() < -90) {
-			dropDown.setPower(-DROP_SPEED / 2);
-		}
-		dropDown.setPower(0);
+		dropDown.setMode(RUN_TO_POSITION);
+		dropDown.setTargetPosition(0);
 	}
 
 	/**
 	 * Sets intake to up position
 	 */
 	public void up() {
-		while (!inTouch.isPressed()) {
-			dropDown.setPower(DROP_SPEED);
-		}
-		dropDown.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-		dropDown.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+		dropDown.setMode(RUN_TO_POSITION);
+		dropDown.setTargetPosition(100);
 	}
 
 	/**
@@ -67,12 +66,12 @@ public class Intake {
 	}
 
 	/**
-	 * Manual override of speed, useful in teleop
+	 * Manual override of power, useful in teleop
 	 *
-	 * @param Speed
+	 * @param Power
 	 */
-	public void setDropSpeed(double Speed) {
-		dropDown.setPower(Speed);
+	public void setDropSpeed(double Power) {
+		dropDown.setPower(Power);
 	}
 
 	/**

@@ -15,6 +15,7 @@ public class Led {
 
 	/**
 	 * sets led pattern
+	 *
 	 * @param blinkinPattern pattern
 	 */
 	public void setPattern(RevBlinkinLedDriver.BlinkinPattern blinkinPattern) {
