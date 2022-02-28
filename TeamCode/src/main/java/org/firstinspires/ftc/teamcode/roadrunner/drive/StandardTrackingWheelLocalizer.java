@@ -1,17 +1,14 @@
 package org.firstinspires.ftc.teamcode.roadrunner.drive;
 
 import androidx.annotation.NonNull;
-
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.localization.ThreeTrackingWheelLocalizer;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.teamcode.roadrunner.util.Encoder;
-
 import java.util.Arrays;
 import java.util.List;
+import org.firstinspires.ftc.teamcode.roadrunner.util.Encoder;
+import org.firstinspires.ftc.teamcode.subsystem.Encoders;
 
 /*
  * Sample tracking wheel localizer implementation assuming the standard configuration:
@@ -37,7 +34,10 @@ public class StandardTrackingWheelLocalizer
 	public static double LATERAL_DISTANCE = 10.5; // in; distance between the left and right wheels
 	public static double FORWARD_OFFSET = 5; // in; offset of the lateral wheel
 
-	private Encoder leftEncoder, rightEncoder, frontEncoder;
+	private final Encoder leftEncoder;
+	private final Encoder rightEncoder;
+	private final Encoder frontEncoder;
+	private final Encoders encoders;
 
 	public StandardTrackingWheelLocalizer(HardwareMap hardwareMap) {
 		super(
@@ -47,12 +47,11 @@ public class StandardTrackingWheelLocalizer
 				new Pose2d(FORWARD_OFFSET, 0, Math.toRadians(-90)) // front
 			)
 		);
-		leftEncoder =
-			new Encoder(hardwareMap.get(DcMotorEx.class, "rightFront"));
-		rightEncoder =
-			new Encoder(hardwareMap.get(DcMotorEx.class, "rightRear"));
-		frontEncoder =
-			new Encoder(hardwareMap.get(DcMotorEx.class, "leftFront"));
+		encoders = new Encoders(hardwareMap);
+		leftEncoder = encoders.leftEncoder;
+
+		rightEncoder = encoders.rightEncoder;
+		frontEncoder = encoders.frontEncoder;
 
 		rightEncoder.setDirection(Encoder.Direction.REVERSE);
 		leftEncoder.setDirection(Encoder.Direction.REVERSE);

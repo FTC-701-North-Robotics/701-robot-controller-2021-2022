@@ -4,7 +4,6 @@ import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.AnalogInput;
-
 import org.firstinspires.ftc.teamcode.subsystem.Led;
 
 @Autonomous(name = "Weight Test", group = "prototype")
@@ -39,15 +38,18 @@ public class WeightTest extends OpMode {
 
 	@Override
 	public void loop() {
-
 		telemetry.addLine(String.valueOf(sensor.getMaxVoltage()));
 		telemetry.addLine(String.valueOf(sensor.getVoltage()));
 
 		if (sensor.getVoltage() <= 0.517) {
 			LED.setPattern(RevBlinkinLedDriver.BlinkinPattern.WHITE);
-		} else if (sensor.getVoltage() > 0.517 && sensor.getVoltage() <= 0.709) {
+		} else if (
+			sensor.getVoltage() > 0.517 && sensor.getVoltage() <= 0.709
+		) {
 			LED.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
-		} else if (sensor.getVoltage() > 0.709 && sensor.getVoltage() <= 0.796) {
+		} else if (
+			sensor.getVoltage() > 0.709 && sensor.getVoltage() <= 0.796
+		) {
 			LED.setPattern(RevBlinkinLedDriver.BlinkinPattern.ORANGE);
 		} else if (sensor.getVoltage() > 0.796) {
 			LED.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);

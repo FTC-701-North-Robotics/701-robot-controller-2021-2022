@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  * Subsystem for controlling rev blinkin led
  */
 public class Led {
+
 	RevBlinkinLedDriver LED;
 
 	public Led(HardwareMap hardwareMap) {
@@ -15,6 +16,7 @@ public class Led {
 
 	/**
 	 * sets led pattern
+	 *
 	 * @param blinkinPattern pattern
 	 */
 	public void setPattern(RevBlinkinLedDriver.BlinkinPattern blinkinPattern) {
