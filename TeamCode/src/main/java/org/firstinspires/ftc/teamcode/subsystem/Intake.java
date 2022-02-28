@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.subsystem;
 
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_TO_POSITION;
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
+
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -14,12 +17,11 @@ enum IntakePosition {
 public class Intake {
 
 	private final double DROP_SPEED = 0.2;
+	private final DcMotor dropDown;
 	public TouchSensor inTouch;
 	public ElapsedTime elapsedTime;
-	public CRServo leftIntake;
-	public CRServo rightIntake;
+	public CRServo intake;
 	public IntakePosition intakePos = IntakePosition.UP;
-	private DcMotor dropDown;
 
 	/**
 	 * Subsystem class for intake
@@ -27,34 +29,29 @@ public class Intake {
 	 * @param hardwareMap Current OpMode hardware map
 	 */
 	public Intake(HardwareMap hardwareMap) {
-		leftIntake = hardwareMap.get(CRServo.class, "leftIntake");
-		rightIntake = hardwareMap.get(CRServo.class, "rightIntake");
+		intake = hardwareMap.get(CRServo.class, "intake");
 
-		leftIntake.setDirection(CRServo.Direction.REVERSE);
+		intake.setDirection(CRServo.Direction.REVERSE);
 
 		dropDown = hardwareMap.get(DcMotor.class, "intakeDrop");
 		dropDown.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+		dropDown.setMode(STOP_AND_RESET_ENCODER);
 	}
 
 	/**
 	 * Sets intake to down position
 	 */
 	public void down() {
-		while (dropDown.getCurrentPosition() < -90) {
-			dropDown.setPower(-DROP_SPEED / 2);
-		}
-		dropDown.setPower(0);
+		dropDown.setMode(RUN_TO_POSITION);
+		dropDown.setTargetPosition(0);
 	}
 
 	/**
 	 * Sets intake to up position
 	 */
 	public void up() {
-		while (!inTouch.isPressed()) {
-			dropDown.setPower(DROP_SPEED);
-		}
-		dropDown.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-		dropDown.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+		dropDown.setMode(RUN_TO_POSITION);
+		dropDown.setTargetPosition(100);
 	}
 
 	/**
@@ -67,12 +64,12 @@ public class Intake {
 	}
 
 	/**
-	 * Manual override of speed, useful in teleop
+	 * Manual override of power, useful in teleop
 	 *
-	 * @param Speed
+	 * @param Power
 	 */
-	public void setDropSpeed(double Speed) {
-		dropDown.setPower(Speed);
+	public void setDropSpeed(double Power) {
+		dropDown.setPower(Power);
 	}
 
 	/**
@@ -82,7 +79,6 @@ public class Intake {
 	 * @param Speed of wheels, between -1.0 and 1.0
 	 */
 	public void setIntakeSpeed(double Speed) {
-		leftIntake.setPower(Speed);
-		rightIntake.setPower(Speed);
+		intake.setPower(Speed);
 	}
 }

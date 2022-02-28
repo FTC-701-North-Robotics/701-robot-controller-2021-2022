@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.subsystem;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -11,11 +10,11 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import org.openftc.easyopencv.OpenCvWebcam;
 
 public class Camera {
+
 	public OpenCvWebcam webcam;
 	public int streamWidth = 640;
 	public int streamHeight = 360;
 
-	
 	public Camera(HardwareMap hardwareMap) {
 		WebcamName webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
 		int cameraMonitorViewId = hardwareMap.appContext
@@ -39,8 +38,7 @@ public class Camera {
 					);
 				}
 
-				public void onError(int errorCode) {
-				}
+				public void onError(int errorCode) {}
 			}
 		);
 	}

@@ -1,12 +1,12 @@
 package org.firstinspires.ftc.teamcode.prototype.scrimmage;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
 import org.firstinspires.ftc.teamcode.subsystem.Drive;
 import org.firstinspires.ftc.teamcode.subsystem.Duck;
 import org.firstinspires.ftc.teamcode.subsystem.Outtake;
 
 public class Auto extends LinearOpMode {
+
 	Drive drive;
 	Outtake outtake;
 	Duck duck;
@@ -30,16 +30,5 @@ public class Auto extends LinearOpMode {
 		outtake.Box.dump();
 		sleep(200);
 		outtake.Box.reset();
-
-//		drive.vectorDrive(0,0,-0.4);
-//		sleep(200);
-//		drive.vectorDrive(-0.4, 0);
-//		sleep(300);
-//		drive.vectorDrive(0, -0.5);
-//		sleep(500);
-//		drive.vectorDrive(0, 0);
-//
-//		duck.setPower(0.5);
-
 	}
 }
