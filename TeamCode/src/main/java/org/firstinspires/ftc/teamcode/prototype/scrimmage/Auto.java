@@ -1,12 +1,12 @@
 package org.firstinspires.ftc.teamcode.prototype.scrimmage;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
 import org.firstinspires.ftc.teamcode.subsystem.Drive;
 import org.firstinspires.ftc.teamcode.subsystem.Duck;
 import org.firstinspires.ftc.teamcode.subsystem.Outtake;
 
 public class Auto extends LinearOpMode {
+
 	Drive drive;
 	Outtake outtake;
 	Duck duck;

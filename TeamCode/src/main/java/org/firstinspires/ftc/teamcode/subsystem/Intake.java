@@ -17,12 +17,11 @@ enum IntakePosition {
 public class Intake {
 
 	private final double DROP_SPEED = 0.2;
+	private final DcMotor dropDown;
 	public TouchSensor inTouch;
 	public ElapsedTime elapsedTime;
-	public CRServo leftIntake;
-	public CRServo rightIntake;
+	public CRServo intake;
 	public IntakePosition intakePos = IntakePosition.UP;
-	private DcMotor dropDown;
 
 	/**
 	 * Subsystem class for intake
@@ -30,10 +29,9 @@ public class Intake {
 	 * @param hardwareMap Current OpMode hardware map
 	 */
 	public Intake(HardwareMap hardwareMap) {
-		leftIntake = hardwareMap.get(CRServo.class, "leftIntake");
-		rightIntake = hardwareMap.get(CRServo.class, "rightIntake");
+		intake = hardwareMap.get(CRServo.class, "intake");
 
-		leftIntake.setDirection(CRServo.Direction.REVERSE);
+		intake.setDirection(CRServo.Direction.REVERSE);
 
 		dropDown = hardwareMap.get(DcMotor.class, "intakeDrop");
 		dropDown.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -81,7 +79,6 @@ public class Intake {
 	 * @param Speed of wheels, between -1.0 and 1.0
 	 */
 	public void setIntakeSpeed(double Speed) {
-		leftIntake.setPower(Speed);
-		rightIntake.setPower(Speed);
+		intake.setPower(Speed);
 	}
 }
