@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.subsystem;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
 import org.firstinspires.ftc.teamcode.roadrunner.util.Encoder;
 
 public class Encoders {
@@ -17,5 +18,13 @@ public class Encoders {
 			new Encoder(hardwareMap.get(DcMotorEx.class, "rightRear"));
 		frontEncoder =
 			new Encoder(hardwareMap.get(DcMotorEx.class, "leftFront"));
+	}
+
+	public void Retract() {
+		throw new UnsupportedOperationException("Not implemented");
+	}
+
+	public void Release() {
+		throw new UnsupportedOperationException("Not implemented");
 	}
 }
