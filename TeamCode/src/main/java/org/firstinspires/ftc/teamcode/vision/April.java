@@ -39,7 +39,7 @@ public class April implements Vision {
 			return TargetLevel.MIDDLE;
 		} else if (marker.center.x >= 50) {
 			return TargetLevel.BOTTOM;
-		} else  {
+		} else {
 			return null;
 		}
 	}

@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.vision;
 
-import java.util.ArrayList;
 import org.opencv.calib3d.Calib3d;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -15,35 +14,31 @@ import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.apriltag.AprilTagDetectorJNI;
 import org.openftc.easyopencv.OpenCvPipeline;
 
+import java.util.ArrayList;
+
 class AprilTagDetectionPipeline extends OpenCvPipeline {
 
-	private long nativeApriltagPtr;
-	private Mat grey = new Mat();
-	private ArrayList<AprilTagDetection> detections = new ArrayList<>();
-
-	private ArrayList<AprilTagDetection> detectionsUpdate = new ArrayList<>();
 	private final Object detectionsUpdateSync = new Object();
-
+	private final Object decimationSync = new Object();
 	Mat cameraMatrix;
-
 	Scalar blue = new Scalar(7, 197, 235, 255);
 	Scalar red = new Scalar(255, 0, 0, 255);
 	Scalar green = new Scalar(0, 255, 0, 255);
 	Scalar white = new Scalar(255, 255, 255, 255);
-
 	double fx;
 	double fy;
 	double cx;
 	double cy;
-
 	// UNITS ARE METERS
 	double tagsize;
 	double tagsizeX;
 	double tagsizeY;
-
+	private long nativeApriltagPtr;
+	private Mat grey = new Mat();
+	private ArrayList<AprilTagDetection> detections = new ArrayList<>();
+	private ArrayList<AprilTagDetection> detectionsUpdate = new ArrayList<>();
 	private float decimation;
 	private boolean needToSetDecimation;
-	private final Object decimationSync = new Object();
 
 	public AprilTagDetectionPipeline(
 		double tagsize,
@@ -190,10 +185,10 @@ class AprilTagDetectionPipeline extends OpenCvPipeline {
 	/**
 	 * Draw a 3D axis marker on a detection. (Similar to what Vuforia does)
 	 *
-	 * @param buf the RGB buffer on which to draw the marker
-	 * @param length the length of each of the marker 'poles'
-	 * @param rvec the rotation vector of the detection
-	 * @param tvec the translation vector of the detection
+	 * @param buf          the RGB buffer on which to draw the marker
+	 * @param length       the length of each of the marker 'poles'
+	 * @param rvec         the rotation vector of the detection
+	 * @param tvec         the translation vector of the detection
 	 * @param cameraMatrix the camera matrix used when finding the detection
 	 */
 	void drawAxisMarker(
@@ -341,10 +336,10 @@ class AprilTagDetectionPipeline extends OpenCvPipeline {
 	 * Extracts 6DOF pose from a trapezoid, using a camera intrinsics matrix and the
 	 * original size of the tag.
 	 *
-	 * @param points the points which form the trapezoid
+	 * @param points       the points which form the trapezoid
 	 * @param cameraMatrix the camera intrinsics matrix
-	 * @param tagsizeX the original width of the tag
-	 * @param tagsizeY the original height of the tag
+	 * @param tagsizeX     the original width of the tag
+	 * @param tagsizeY     the original height of the tag
 	 * @return the 6DOF pose of the camera relative to the tag
 	 */
 	Pose poseFromTrapezoid(
