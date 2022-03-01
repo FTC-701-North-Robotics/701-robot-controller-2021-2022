@@ -375,8 +375,8 @@ public class FtcRobotControllerActivity extends Activity {
 			);
 		}
 
-		entireScreenLayout = (LinearLayout) findViewById(R.id.entire_screen);
-		buttonMenu = (ImageButton) findViewById(R.id.menu_buttons);
+		entireScreenLayout = findViewById(R.id.entire_screen);
+		buttonMenu = findViewById(R.id.menu_buttons);
 		buttonMenu.setOnClickListener(
 			new View.OnClickListener() {
 				@Override
@@ -436,14 +436,14 @@ public class FtcRobotControllerActivity extends Activity {
 			cfgFileMgr.setActiveConfig(false, configFile);
 		}
 
-		textDeviceName = (TextView) findViewById(R.id.textDeviceName);
+		textDeviceName = findViewById(R.id.textDeviceName);
 		textNetworkConnectionStatus =
-			(TextView) findViewById(R.id.textNetworkConnectionStatus);
-		textRobotStatus = (TextView) findViewById(R.id.textRobotStatus);
-		textOpMode = (TextView) findViewById(R.id.textOpMode);
-		textErrorMessage = (TextView) findViewById(R.id.textErrorMessage);
-		textGamepad[0] = (TextView) findViewById(R.id.textGamepad1);
-		textGamepad[1] = (TextView) findViewById(R.id.textGamepad2);
+			findViewById(R.id.textNetworkConnectionStatus);
+		textRobotStatus = findViewById(R.id.textRobotStatus);
+		textOpMode = findViewById(R.id.textOpMode);
+		textErrorMessage = findViewById(R.id.textErrorMessage);
+		textGamepad[0] = findViewById(R.id.textGamepad1);
+		textGamepad[1] = findViewById(R.id.textGamepad2);
 		immersion = new ImmersiveMode(getWindow().getDecorView());
 		dimmer = new Dimmer(this);
 		dimmer.longBright();
@@ -678,11 +678,7 @@ public class FtcRobotControllerActivity extends Activity {
 
 		RobotState robotState = robot.eventLoopManager.state;
 
-		if (robotState != RobotState.RUNNING) {
-			return false;
-		} else {
-			return true;
-		}
+		return robotState == RobotState.RUNNING;
 	}
 
 	@Override
@@ -806,7 +802,7 @@ public class FtcRobotControllerActivity extends Activity {
 	 * tfodMonitorView) based on the given configuration. Makes the children split the space.
 	 */
 	private void updateMonitorLayout(Configuration configuration) {
-		LinearLayout monitorContainer = (LinearLayout) findViewById(
+		LinearLayout monitorContainer = findViewById(
 			R.id.monitorContainer
 		);
 		if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -1083,16 +1079,10 @@ public class FtcRobotControllerActivity extends Activity {
 			} else if (
 				key.equals(context.getString(R.string.pref_wifi_automute))
 			) {
-				if (
-					preferencesHelper.readBoolean(
-						context.getString(R.string.pref_wifi_automute),
-						false
-					)
-				) {
-					initWifiMute(true);
-				} else {
-					initWifiMute(false);
-				}
+				initWifiMute(preferencesHelper.readBoolean(
+					context.getString(R.string.pref_wifi_automute),
+					false
+				));
 			}
 		}
 	}
