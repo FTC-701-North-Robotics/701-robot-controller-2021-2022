@@ -52,7 +52,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class ConceptSoundsSKYSTONE extends LinearOpMode {
 
 	// List of available sound resources
-	String sounds[] = {
+	String[] sounds = {
 		"ss_alarm",
 		"ss_bb8_down",
 		"ss_bb8_up",

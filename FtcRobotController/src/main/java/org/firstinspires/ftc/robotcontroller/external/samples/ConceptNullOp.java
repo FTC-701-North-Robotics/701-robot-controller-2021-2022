@@ -43,7 +43,7 @@ import java.util.Date;
 @Disabled
 public class ConceptNullOp extends OpMode {
 
-	private ElapsedTime runtime = new ElapsedTime();
+	private final ElapsedTime runtime = new ElapsedTime();
 
 	@Override
 	public void init() {

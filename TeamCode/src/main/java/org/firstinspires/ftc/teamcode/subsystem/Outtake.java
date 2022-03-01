@@ -65,7 +65,7 @@ public class Outtake {
 		/**
 		 * Brings winch to down position
 		 */
-		public void down() {
+		public void bottom() {
 			winch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 			winch.setTargetPosition(0);
 		}
