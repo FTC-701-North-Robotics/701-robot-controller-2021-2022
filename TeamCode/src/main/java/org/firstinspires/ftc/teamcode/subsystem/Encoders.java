@@ -6,16 +6,16 @@ import org.firstinspires.ftc.teamcode.roadrunner.util.Encoder;
 
 public class Encoders {
 
-	public Encoder leftEncoder;
-	public Encoder rightEncoder;
+	public Encoder backEncoder;
+	public Encoder middleEncoder;
 	public Encoder frontEncoder;
 
 	public boolean isRetracted;
 
 	public Encoders(HardwareMap hardwareMap) {
-		leftEncoder =
+		backEncoder =
 			new Encoder(hardwareMap.get(DcMotorEx.class, "rightFront"));
-		rightEncoder =
+		middleEncoder =
 			new Encoder(hardwareMap.get(DcMotorEx.class, "rightRear"));
 		frontEncoder =
 			new Encoder(hardwareMap.get(DcMotorEx.class, "leftFront"));
