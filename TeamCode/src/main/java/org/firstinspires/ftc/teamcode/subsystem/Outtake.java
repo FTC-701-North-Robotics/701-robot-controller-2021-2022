@@ -14,6 +14,13 @@ public class Outtake {
 	public static Double FLIP_IN = 0.1;
 	public static Double BOX_OUT = 0.15;
 	public static Double BOX_IN = 0.5;
+
+	public static Double BOTTOM_POS = 400.0;
+	public static Double MIDDLE_POS = 400.0;
+	public static Double TOP_POS = 400.0;
+
+	public static Double VELOCITY = 50.0;
+
 	public Outtake.Box Box;
 	public Outtake.Winch Winch;
 	public DcMotorEx winch = null;
@@ -54,44 +61,42 @@ public class Outtake {
 		 * Brings winch to up position
 		 */
 		public void up() {
-			winch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-			winch.setTargetPosition(0);
+			toPosition(TOP_POS);
+			winchPosition = WinchPosition.UP;
 		}
 
 		/**
 		 * Brings winch to middle position
 		 */
 		public void middle() {
-			winch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-			winch.setTargetPosition(0);
+			toPosition(MIDDLE_POS);
+			winchPosition = WinchPosition.MIDDLE;
 		}
 
 		/**
 		 * Brings winch to down position
 		 */
 		public void bottom() {
-			winch.setTargetPosition(400);
-			winch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-			winch.setVelocity(50);
+			toPosition(BOTTOM_POS);
+			winchPosition = WinchPosition.DOWN;
 		}
 
 		/**
 		 * Runs winch to position
-		 *
-		 * @param target   Target Position
-		 * @param leniancy Allowed Deviation from target position
 		 */
-		@Deprecated
-		public void toPosition(double target, double leniancy) {
-			while (winch.getCurrentPosition() - target > leniancy) {
-				if (winch.getCurrentPosition() - target > 0) {
-					winch.setPower(-MAX_SPEED);
-				}
-				if (winch.getCurrentPosition() - target < 0) {
-					winch.setPower(MAX_SPEED);
-				}
-			}
+		public void toPosition(double target, double velocity) {
+			winch.setTargetPosition((int) target);
+			winch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+			winch.setVelocity(velocity);
 		}
+
+		/**
+		 * Runs winch to position
+		 */
+		public void toPosition(double target) {
+			toPosition(target, VELOCITY);
+		}
+
 
 		/**
 		 * Sets power of winch
