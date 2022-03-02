@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.subsystem;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -19,7 +21,7 @@ public class Outtake {
 	public Outtake.Box Box;
 	public Outtake.Winch Winch;
 
-	public DcMotor winch = null;
+	public DcMotorEx winch = null;
 	public Servo outTakeBox = null;
 	public WinchPosition winchPosition = WinchPosition.DOWN;
 
@@ -29,11 +31,15 @@ public class Outtake {
 	 * @param hardwareMap Current OpMode's hardwareMap
 	 */
 	public Outtake(HardwareMap hardwareMap) {
-		winch = hardwareMap.get(DcMotor.class, "outtakeWinch");
+		winch = hardwareMap.get(DcMotorEx.class, "outtakeWinch");
 		outTakeBox = hardwareMap.get(Servo.class, "outtakeBoxServo");
 
 		winch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 		winch.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+		winch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+		winch.setDirection(DcMotorSimple.Direction.REVERSE);
 
 		Winch = new Outtake.Winch();
 		Box = new Outtake.Box();
@@ -66,8 +72,9 @@ public class Outtake {
 		 * Brings winch to down position
 		 */
 		public void bottom() {
+			winch.setTargetPosition(400);
 			winch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-			winch.setTargetPosition(0);
+			winch.setVelocity(50);
 		}
 
 		/**
@@ -94,8 +101,17 @@ public class Outtake {
 		 * @param power power
 		 */
 		public void setManualPower(double power) {
+			winch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 			winch.setPower(power);
 			winchPosition = WinchPosition.MANUAL;
+		}
+
+		/**
+		 * Blocks thread untill motor is done
+		 */
+		public void block() {
+			while (winch.isBusy()) {
+			}
 		}
 	}
 

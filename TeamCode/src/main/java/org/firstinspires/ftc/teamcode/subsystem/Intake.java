@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystem;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_TO_POSITION;
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODER;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
 
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -31,7 +32,7 @@ public class Intake {
 	public Intake(HardwareMap hardwareMap) {
 		intake = hardwareMap.get(CRServo.class, "intake");
 
-		intake.setDirection(CRServo.Direction.REVERSE);
+		intake.setDirection(CRServo.Direction.FORWARD);
 
 		dropDown = hardwareMap.get(DcMotor.class, "intakeDrop");
 		dropDown.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -69,6 +70,7 @@ public class Intake {
 	 * @param Power
 	 */
 	public void setDropSpeed(double Power) {
+		dropDown.setMode(RUN_USING_ENCODER);
 		dropDown.setPower(Power);
 	}
 

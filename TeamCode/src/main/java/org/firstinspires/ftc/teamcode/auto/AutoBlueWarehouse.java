@@ -4,7 +4,6 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.subsystem.Duck;
@@ -16,6 +15,7 @@ import org.firstinspires.ftc.teamcode.vision.Zach;
 
 @Autonomous(name = "Blue Warehouse", group = "Competition")
 public class AutoBlueWarehouse extends LinearOpMode {
+
 	SampleMecanumDrive drive;
 	Outtake outtake;
 	Vision vision;
@@ -33,8 +33,8 @@ public class AutoBlueWarehouse extends LinearOpMode {
 
 		vision.openDashboardStream();
 
-
-		TrajectorySequence trajectory = drive.trajectorySequenceBuilder(new Pose2d(12, -60, Math.toRadians(-90)))
+		TrajectorySequence trajectory = drive
+			.trajectorySequenceBuilder(new Pose2d(12, -60, Math.toRadians(-90)))
 			.splineToConstantHeading(new Vector2d(-13, 44), Math.toRadians(-90))
 			.addTemporalMarker(() -> {
 				switch (targetLevel) {
@@ -55,9 +55,11 @@ public class AutoBlueWarehouse extends LinearOpMode {
 			.waitSeconds(0.2)
 			.addTemporalMarker(() -> outtake.Winch.bottom())
 			.waitSeconds(0.5)
-
 			.back(10)
-			.splineToLinearHeading(new Pose2d(15, 65, Math.toRadians(180)), Math.toRadians(0))
+			.splineToLinearHeading(
+				new Pose2d(15, 65, Math.toRadians(180)),
+				Math.toRadians(0)
+			)
 			.addTemporalMarker(() -> {
 				intake.down();
 				intake.setIntakeSpeed(0.2);
@@ -75,7 +77,10 @@ public class AutoBlueWarehouse extends LinearOpMode {
 				outtake.Box.reset();
 				outtake.Winch.bottom();
 			})
-			.splineToLinearHeading(new Pose2d(15, -65, Math.toRadians(-180)), Math.toRadians(0))
+			.splineToLinearHeading(
+				new Pose2d(15, -65, Math.toRadians(-180)),
+				Math.toRadians(0)
+			)
 			.back(30)
 			.build();
 
@@ -84,9 +89,6 @@ public class AutoBlueWarehouse extends LinearOpMode {
 		vision.closeDashboardStream();
 		vision.close();
 
-
 		drive.followTrajectorySequence(trajectory);
-
-
 	}
 }

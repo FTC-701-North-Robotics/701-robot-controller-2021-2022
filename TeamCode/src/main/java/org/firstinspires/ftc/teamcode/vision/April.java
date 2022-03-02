@@ -1,11 +1,9 @@
 package org.firstinspires.ftc.teamcode.vision;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
+import java.util.ArrayList;
 import org.firstinspires.ftc.teamcode.subsystem.Camera;
 import org.openftc.apriltag.AprilTagDetection;
-
-import java.util.ArrayList;
 
 public class April implements Vision {
 
@@ -23,9 +21,9 @@ public class April implements Vision {
 
 	April(HardwareMap hardwareMap) {
 		camera = new Camera(hardwareMap);
-		aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
+		aprilTagDetectionPipeline =
+			new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
 		camera.setPipeline(aprilTagDetectionPipeline);
-
 	}
 
 	@Override

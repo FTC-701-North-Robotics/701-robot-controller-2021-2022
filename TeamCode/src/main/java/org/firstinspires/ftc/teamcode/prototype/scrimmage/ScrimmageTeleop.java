@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.prototype.scrimmage;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.subsystem.Drive;
@@ -7,8 +8,9 @@ import org.firstinspires.ftc.teamcode.subsystem.Duck;
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.subsystem.Outtake;
 
+@Disabled
 @TeleOp(name = "Scrimmage Teleop", group = "main")
-public class Teleop extends LinearOpMode {
+public class ScrimmageTeleop extends LinearOpMode {
 
 	public Drive drive;
 	public Duck duck;
@@ -34,7 +36,7 @@ public class Teleop extends LinearOpMode {
 				(gamepad2.right_trigger - gamepad2.left_trigger) * 0.5
 			);
 
-			outtake.Winch.setManualPower(gamepad2.right_stick_y);
+			outtake.winch.setPower(gamepad2.right_stick_y);
 
 			intake.setIntakeSpeed(
 				(gamepad2.a ? 1.0 : 0.0) - (gamepad2.b ? -1.0 : 0.0)
@@ -46,16 +48,6 @@ public class Teleop extends LinearOpMode {
 			} else if (gamepad2.left_bumper) {
 				outtake.Box.reset();
 			}
-
-			telemetry.addData(
-				"Winch Position: ",
-				outtake.winch.getCurrentPosition()
-			);
-			telemetry.addData(
-				"Outtake Box Position",
-				outtake.outTakeBox.getPosition()
-			);
-			telemetry.update();
 		}
 	}
 }

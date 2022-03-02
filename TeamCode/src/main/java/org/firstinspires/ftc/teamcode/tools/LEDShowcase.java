@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.tools;
 
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.subsystem.Led;
 
+@Disabled
 @TeleOp(name = "LED showcase", group = "tools")
 public class LEDShowcase extends LinearOpMode {
 

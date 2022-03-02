@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.subsystem;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
 import org.firstinspires.ftc.teamcode.roadrunner.util.Encoder;
 
 public class Encoders {
@@ -10,6 +9,8 @@ public class Encoders {
 	public Encoder leftEncoder;
 	public Encoder rightEncoder;
 	public Encoder frontEncoder;
+
+	public boolean isRetracted;
 
 	public Encoders(HardwareMap hardwareMap) {
 		leftEncoder =
@@ -21,10 +22,20 @@ public class Encoders {
 	}
 
 	public void Retract() {
+		isRetracted = true;
 		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	public void Release() {
+		isRetracted = false;
 		throw new UnsupportedOperationException("Not implemented");
+	}
+
+	public void Toggle() {
+		if (isRetracted) {
+			Release();
+		} else {
+			Retract();
+		}
 	}
 }
