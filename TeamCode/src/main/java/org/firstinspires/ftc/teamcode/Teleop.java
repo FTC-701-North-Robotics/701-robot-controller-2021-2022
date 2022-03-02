@@ -47,10 +47,10 @@ public class Teleop extends LinearOpMode {
 				(gamepad2.right_trigger - gamepad2.left_trigger) * 0.5
 			);
 
-			if (Math.abs(gamepad2.right_stick_y) > 0.2) {
-				outtake.Winch.setManualPower(gamepad2.right_stick_y);
+			if (Math.abs(gamepad2.right_stick_y) > 0.2) { // Deadzone to allow for autonamtic control
+				outtake.Winch.setManualPower(-gamepad2.right_stick_y);
 			} else if (outtake.winchPosition == WinchPosition.MANUAL) {
-				outtake.Winch.setManualPower(gamepad2.right_stick_y);
+				outtake.Winch.setManualPower(-gamepad2.right_stick_y);
 			}
 
 			intake.setIntakeSpeed(
