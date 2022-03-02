@@ -9,6 +9,8 @@ import org.firstinspires.ftc.teamcode.subsystem.Duck;
 import org.firstinspires.ftc.teamcode.subsystem.Encoders;
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.subsystem.Outtake;
+import org.firstinspires.ftc.teamcode.subsystem.WinchPosition;
+import org.firstinspires.ftc.teamcode.util.Bulk;
 
 import java.util.Locale;
 
@@ -16,16 +18,17 @@ import java.util.Locale;
 @TeleOp(name = "Teleop", group = "main")
 public class Teleop extends LinearOpMode {
 
+	public static double INTAKE_SPEED_MAX = 1.0;
 	public Drive drive;
 	public Duck duck;
 	public Intake intake;
 	public Outtake outtake;
 	public Encoders encoders;
 
-	public double INTAKE_SPEED_MAX = 1.0;
-
 	@Override
 	public void runOpMode() {
+		Bulk.auto(hardwareMap);
+
 		drive = new Drive(hardwareMap);
 		duck = new Duck(hardwareMap);
 		outtake = new Outtake(hardwareMap);
@@ -46,6 +49,8 @@ public class Teleop extends LinearOpMode {
 
 			if (Math.abs(gamepad2.right_stick_y) > 0.2) {
 				outtake.Winch.setManualPower(gamepad2.right_stick_y);
+			} else if (outtake.winchPosition == WinchPosition.MANUAL) {
+				outtake.Winch.setManualPower(gamepad2.right_stick_y);
 			}
 
 			intake.setIntakeSpeed(
@@ -62,6 +67,7 @@ public class Teleop extends LinearOpMode {
 
 			if (gamepad1.share || gamepad2.share) {
 				encoders.Toggle();
+				sleep(200);
 			}
 
 			if (gamepad2.dpad_down) {
@@ -80,6 +86,10 @@ public class Teleop extends LinearOpMode {
 			telemetry.addData(
 				"Winch Position",
 				outtake.winch.getCurrentPosition()
+			);
+			telemetry.addData(
+				"Odometry Servo Position",
+				encoders.servo0.getPosition()
 			);
 			telemetry.update();
 		}
