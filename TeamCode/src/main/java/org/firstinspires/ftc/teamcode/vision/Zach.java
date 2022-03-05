@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.vision;
 
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
 import org.firstinspires.ftc.teamcode.subsystem.Camera;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -136,6 +136,7 @@ public class Zach implements Vision {
 			} else {
 				targetPosition = TargetLevel.TOP;
 			}
+
 			return outPut;
 		}
 	}

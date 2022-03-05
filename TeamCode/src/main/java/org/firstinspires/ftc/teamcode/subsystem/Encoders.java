@@ -4,7 +4,6 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-
 import org.firstinspires.ftc.teamcode.roadrunner.util.Encoder;
 
 @Config
@@ -22,7 +21,6 @@ public class Encoders {
 	public Servo servo0;
 	public Servo servo1;
 	public Servo servo2;
-
 
 	public Encoders(HardwareMap hardwareMap) {
 		backEncoder =

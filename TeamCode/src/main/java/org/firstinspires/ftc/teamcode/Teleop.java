@@ -8,7 +8,9 @@ import org.firstinspires.ftc.teamcode.subsystem.Drive;
 import org.firstinspires.ftc.teamcode.subsystem.Duck;
 import org.firstinspires.ftc.teamcode.subsystem.Encoders;
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
+import org.firstinspires.ftc.teamcode.subsystem.Led;
 import org.firstinspires.ftc.teamcode.subsystem.Outtake;
+import org.firstinspires.ftc.teamcode.subsystem.OuttakeWeightSensor;
 import org.firstinspires.ftc.teamcode.subsystem.WinchPosition;
 import org.firstinspires.ftc.teamcode.util.Bulk;
 
@@ -19,11 +21,14 @@ import java.util.Locale;
 public class Teleop extends LinearOpMode {
 
 	public static double INTAKE_SPEED_MAX = 1.0;
+
 	public Drive drive;
 	public Duck duck;
 	public Intake intake;
 	public Outtake outtake;
 	public Encoders encoders;
+	public OuttakeWeightSensor outtakeWeightSensor;
+	public Led led;
 
 	@Override
 	public void runOpMode() {
@@ -34,14 +39,16 @@ public class Teleop extends LinearOpMode {
 		outtake = new Outtake(hardwareMap);
 		intake = new Intake(hardwareMap);
 		encoders = new Encoders(hardwareMap);
+		led = new Led(hardwareMap);
+		outtakeWeightSensor = new OuttakeWeightSensor(hardwareMap, led);
 
 		waitForStart();
 
 		while (opModeIsActive()) {
 			drive.vectorDrive(
-				gamepad1.left_stick_x * 0.8,
-				gamepad1.left_stick_y * 0.8,
-				gamepad1.right_stick_x * 0.8
+				gamepad1.left_stick_x * 0.7,
+				gamepad1.left_stick_y * 0.5,
+				gamepad1.right_stick_x * 0.5
 			);
 			duck.setPower(
 				(gamepad2.right_trigger - gamepad2.left_trigger) * 0.5
@@ -74,6 +81,8 @@ public class Teleop extends LinearOpMode {
 				outtake.Winch.bottom();
 			}
 
+			outtakeWeightSensor.updateLED();
+
 			telemetry.addData(
 				"Opmode has been active for",
 				String.format(Locale.ENGLISH, "%.2f Seconds", this.getRuntime())
@@ -90,6 +99,10 @@ public class Teleop extends LinearOpMode {
 			telemetry.addData(
 				"Odometry Servo Position",
 				encoders.servo0.getPosition()
+			);
+			telemetry.addData(
+				"Weight Sensor Value",
+				outtakeWeightSensor.analogInput.getVoltage()
 			);
 			telemetry.update();
 		}

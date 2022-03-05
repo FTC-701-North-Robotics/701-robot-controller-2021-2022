@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystem;
 
+import android.os.SystemClock;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -11,15 +13,17 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Outtake {
 
 	public static Double FLIP_OUT = 1.0;
-	public static Double FLIP_IN = 0.1;
-	public static Double BOX_OUT = 0.15;
-	public static Double BOX_IN = 0.5;
+	public static Double FLIP_IN = 0.0;
+	public static Double BOX_DUMP = 1.0;
+	public static Double BOX_OUT = 0.5;
+	public static Double BOX_IN = 0.0;
 
+	public static Double RESET_POS = 0.0;
 	public static Double BOTTOM_POS = 400.0;
 	public static Double MIDDLE_POS = 400.0;
 	public static Double TOP_POS = 400.0;
 
-	public static Double VELOCITY = 50.0;
+	public static Double VELOCITY = 150.0;
 
 	public Outtake.Box Box;
 	public Outtake.Winch Winch;
@@ -27,7 +31,6 @@ public class Outtake {
 	public Servo outtakeBox = null;
 	public Servo outtakeFlip = null;
 	public WinchPosition winchPosition = WinchPosition.DOWN;
-
 
 	/**
 	 * Outtake Subsystem
@@ -38,7 +41,6 @@ public class Outtake {
 		winch = hardwareMap.get(DcMotorEx.class, "outtakeWinch");
 		outtakeBox = hardwareMap.get(Servo.class, "outtakeBoxServo");
 		outtakeFlip = hardwareMap.get(Servo.class, "outtakeFlipServo");
-
 
 		winch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 		winch.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -81,6 +83,11 @@ public class Outtake {
 			winchPosition = WinchPosition.DOWN;
 		}
 
+		public void reset() {
+			toPosition(RESET_POS);
+			winchPosition = WinchPosition.RESET;
+		}
+
 		/**
 		 * Runs winch to position
 		 */
@@ -96,7 +103,6 @@ public class Outtake {
 		public void toPosition(double target) {
 			toPosition(target, VELOCITY);
 		}
-
 
 		/**
 		 * Sets power of winch
@@ -127,8 +133,9 @@ public class Outtake {
 		 * Dumps contents of box
 		 */
 		public void dump() {
-			outtakeBox.setPosition(BOX_OUT);
 			outtakeFlip.setPosition(FLIP_OUT);
+			SystemClock.sleep(300);
+			outtakeBox.setPosition(BOX_OUT);
 		}
 
 		/**
@@ -136,6 +143,7 @@ public class Outtake {
 		 */
 		public void reset() {
 			outtakeBox.setPosition(BOX_IN);
+			SystemClock.sleep(300);
 			outtakeFlip.setPosition(FLIP_IN);
 		}
 	}

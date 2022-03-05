@@ -8,4 +8,5 @@ public enum WinchPosition {
 	MIDDLE,
 	DOWN,
 	MANUAL,
+	RESET,
 }
